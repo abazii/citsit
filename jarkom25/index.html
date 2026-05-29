@@ -66,41 +66,59 @@
 
         /* Optimalisasi Cetak Kertas A4 Presisi */
         @media print {
-            body {
+            @page {
+                size: A4 portrait;
+                margin: 0; /* Hilangkan header/footer bawaan browser seperti URL & Tanggal */
+            }
+            html, body {
+                width: 210mm !important;
                 background-color: #ffffff !important;
                 color: #000000 !important;
-                font-size: 11px !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
             }
             .no-print {
                 display: none !important;
             }
+            #document-layout {
+                margin: 0 !important;
+                padding: 0 !important;
+                gap: 0 !important;
+            }
             .print-page {
                 width: 210mm !important;
                 height: 297mm !important;
-                padding: 12mm !important;
+                max-height: 297mm !important;
+                padding: 12mm 15mm !important; /* Margin cetak aman untuk printer */
                 margin: 0 !important;
+                box-sizing: border-box !important;
                 page-break-after: always !important;
+                break-after: page !important;
                 box-shadow: none !important;
                 background: #ffffff !important;
                 border: none !important;
+                border-radius: 0 !important;
                 overflow: hidden !important;
                 color: #000000 !important;
             }
             .print-clean {
-                border-color: #000000 !important;
+                border-color: #94a3b8 !important; /* Border abu-abu rapih, tidak terlalu pekat */
                 background-color: transparent !important;
                 color: #000000 !important;
             }
-            tr, p, div {
+            tr, p, div, article, section {
                 page-break-inside: avoid !important;
+                break-inside: avoid !important;
             }
-            /* Reset warna teks khusus saat diprint */
+            /* Reset warna teks khusus saat diprint agar lebih terbaca */
             .text-indigo-300, .text-indigo-400, .text-emerald-400, .text-amber-400, .text-rose-400, .text-white {
-                color: #000000 !important;
+                color: #0f172a !important; 
             }
             .bg-indigo-900\/40 {
                 background-color: #f1f5f9 !important;
-                border-left: 3px solid #000000 !important;
+                border-left: 3px solid #475569 !important;
             }
         }
 
@@ -141,7 +159,7 @@
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                 </button>
             </div>
-            <p class="text-sm opacity-80 mb-6 leading-relaxed">Sebelum dicetak bolak-balik pada kertas A4, jika Anda ingin mendukung *project* ini, Anda dapat menyalin nomor DANA (<strong>083820666909</strong>) terlebih dahulu sebagai dukungan untuk *publisher* <strong>abaz 2026</strong>. Terima kasih!</p>
+            <p class="text-sm opacity-80 mb-6 leading-relaxed">Sebelum dicetak bolak-balik pada kertas A4, jika Anda ingin mendukung *project* ini, Anda dapat menyalin nomor DANA (<strong>098793297020</strong>) terlebih dahulu sebagai dukungan untuk *publisher* <strong>abaz 2026</strong>. Terima kasih!</p>
             <div class="flex flex-col sm:flex-row gap-3 justify-end">
                 <button onclick="proceedToPrint(false)" class="px-4 py-2.5 rounded-xl font-semibold text-xs border transition-colors hover:opacity-75" style="background-color: var(--apple-button-bg); color: var(--apple-text-main); border-color: var(--apple-border);">Cetak Langsung</button>
                 <button onclick="proceedToPrint(true)" class="px-4 py-2.5 rounded-xl font-semibold text-xs text-white bg-indigo-600 hover:bg-indigo-700 transition-colors shadow-sm">Salin DANA & Cetak</button>
@@ -207,7 +225,7 @@
             </div>
             <div class="flex items-center gap-3 w-full md:w-auto justify-end">
                 <div class="px-4 py-2 rounded-xl border font-mono text-xs font-bold" style="background-color: var(--apple-bg-terminal); border-color: var(--apple-border);">
-                    DANA: 083820666909
+                    DANA: 098793297020
                 </div>
                 <button onclick="copyDanaNumber()" aria-label="Salin nomor dana" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-full font-semibold text-xs transition shadow-sm">
                     Salin No. DANA
@@ -298,10 +316,10 @@
     </div>
 
     <!-- DOCUMENT PAGE CONTAINER -->
-    <main class="mt-8 flex flex-col items-center gap-8 px-4" id="document-layout">
+    <main class="mt-8 flex flex-col items-center gap-8 px-4 print:mt-0 print:gap-0 print:p-0" id="document-layout">
         
         <!-- ==================== HALAMAN 1 (PAGE 1) ==================== -->
-        <section id="p1" class="print-page a4-container shadow-sm rounded-3xl border flex flex-col justify-between p-[12mm] relative transition-all duration-300" style="background-color: var(--apple-bg-card); border-color: var(--apple-border);">
+        <section id="p1" class="print-page a4-container shadow-sm rounded-3xl border flex flex-col justify-between p-[12mm] relative transition-all duration-300 print:rounded-none print:shadow-none print:border-none" style="background-color: var(--apple-bg-card); border-color: var(--apple-border);">
             <div>
                 <!-- Header Dokumen -->
                 <div class="border-b pb-4 mb-5 flex justify-between items-end print-clean" style="border-color: var(--apple-border);">
@@ -537,7 +555,7 @@
 
 
         <!-- ==================== HALAMAN 2 (PAGE 2) ==================== -->
-        <section id="p2" class="print-page a4-container shadow-sm rounded-3xl border flex flex-col justify-between p-[12mm] relative transition-all duration-300" style="background-color: var(--apple-bg-card); border-color: var(--apple-border);">
+        <section id="p2" class="print-page a4-container shadow-sm rounded-3xl border flex flex-col justify-between p-[12mm] relative transition-all duration-300 print:rounded-none print:shadow-none print:border-none" style="background-color: var(--apple-bg-card); border-color: var(--apple-border);">
             <div>
                 <!-- Header Dokumen Halaman 2 -->
                 <div class="border-b pb-4 mb-5 flex justify-between items-end print-clean" style="border-color: var(--apple-border);">
@@ -823,7 +841,7 @@
         function proceedToPrint(shouldCopyDana) {
             if (shouldCopyDana) {
                 copyDanaNumber(false); // jangan tampilkan toast dulu, ganti dengan yang bawah
-                showToast("DANA 083820666909 disalin! Membuka menu cetak...");
+                showToast("DANA 098793297020 disalin! Membuka menu cetak...");
             }
             
             closePrintModal();
@@ -837,14 +855,14 @@
         // Copy Dana Number dengan penanganan iFrame Aman
         function copyDanaNumber(showNotification = true) {
             const tempInput = document.createElement("textarea");
-            tempInput.value = "083820666909";
+            tempInput.value = "098793297020";
             document.body.appendChild(tempInput);
             tempInput.select();
             document.execCommand("copy");
             document.body.removeChild(tempInput);
             
             if (showNotification) {
-                showToast("Nomor DANA 083820666909 berhasil disalin!");
+                showToast("Nomor DANA 098793297020 berhasil disalin!");
             }
         }
 

@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cheat Sheet Praktikum Jaringan Komputer - abaz 2026</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & JetBrains Mono untuk tampilan ala Apple -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'SFMono-Regular', 'monospace'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Desain Sistem Variabel Warna ala Apple.com */
+        :root {
+            /* DARK THEME VARIABLES (Dipindah janten dadasar mun kelas light-theme dicabut) */
+            --apple-bg-body: #161617;
+            --apple-bg-canvas: #000000;
+            --apple-bg-card: #1d1d1f;
+            --apple-bg-terminal: #000000;
+            --apple-text-main: #f5f5f7;
+            --apple-text-muted: #86868b;
+            --apple-text-accent: #2997ff; /* Apple Blue */
+            --apple-border: rgba(255, 255, 255, 0.12);
+            --apple-accent-emerald: #30d158; /* Apple Green */
+            --apple-accent-amber: #ff9f0a; /* Apple Orange */
+            --apple-accent-rose: #ff453a; /* Apple Red */
+            --apple-button-bg: #1d1d1f;
+            --apple-button-hover: #2d2d2f;
+        }
+
+        /* DEFAULT SEKARANG: LIGHT THEME */
+        .light-theme {
+            --apple-bg-body: #f5f5f7;
+            --apple-bg-canvas: #ffffff;
+            --apple-bg-card: #ffffff;
+            --apple-bg-terminal: #f5f5f7;
+            --apple-text-main: #1d1d1f;
+            --apple-text-muted: #6e6e73;
+            --apple-text-accent: #0066cc; /* Apple Link Blue */
+            --apple-border: rgba(0, 0, 0, 0.08);
+            --apple-accent-emerald: #248a3d;
+            --apple-accent-amber: #b25e00;
+            --apple-accent-rose: #d12229;
+            --apple-button-bg: #e8e8ed;
+            --apple-button-hover: #d2d2d7;
+        }
+
+        body {
+            background-color: var(--apple-bg-body);
+            color: var(--apple-text-main);
+            transition: background-color 0.4s cubic-bezier(0.25, 1, 0.5, 1), color 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* Optimalisasi Cetak Kertas A4 Presisi */
+        @media print {
+            body {
+                background-color: #ffffff !important;
+                color: #000000 !important;
+                font-size: 11px !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .print-page {
+                width: 210mm !important;
+                height: 297mm !important;
+                padding: 12mm !important;
+                margin: 0 !important;
+                page-break-after: always !important;
+                box-shadow: none !important;
+                background: #ffffff !important;
+                border: none !important;
+                overflow: hidden !important;
+                color: #000000 !important;
+            }
+            .print-clean {
+                border-color: #000000 !important;
+                background-color: transparent !important;
+                color: #000000 !important;
+            }
+            tr, p, div {
+                page-break-inside: avoid !important;
+            }
+            /* Reset warna teks khusus saat diprint */
+            .text-indigo-300, .text-indigo-400, .text-emerald-400, .text-amber-400, .text-rose-400, .text-white {
+                color: #000000 !important;
+            }
+            .bg-indigo-900\/40 {
+                background-color: #f1f5f9 !important;
+                border-left: 3px solid #000000 !important;
+            }
+        }
+
+        .a4-container {
+            width: 210mm;
+            min-height: 297mm;
+        }
+
+        /* Custom focus outline untuk aksesibilitas keyboard */
+        button:focus-visible, input:focus-visible, select:focus-visible {
+            outline: 2px solid var(--apple-text-accent);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<!-- KELAS light-theme DITERAPKAN DI SINI SEBAGAI DEFAULT -->
+<body id="body-theme" class="light-theme font-sans antialiased min-h-screen pb-16">
+
+    <!-- TOAST NOTIFICATION SYSTEM (Aksesibilitas Ganti Alert) -->
+    <div id="toast" role="alert" aria-live="polite" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 ease-out bg-slate-800 text-slate-100 border border-slate-700/80 px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 text-sm max-w-sm pointer-events-none">
+        <span id="toast-icon" class="text-lg"></span>
+        <span id="toast-msg" class="font-medium"></span>
+    </div>
+
+    <!-- PRINT CONFIRMATION MODAL -->
+    <div id="print-modal" class="fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm hidden items-center justify-center p-4 opacity-0 transition-opacity duration-300" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="rounded-2xl p-6 max-w-md w-full shadow-2xl border transform scale-95 transition-transform duration-300" style="background-color: var(--apple-bg-card); border-color: var(--apple-border);" id="print-modal-content">
+            <div class="flex justify-between items-start mb-4">
+                <div class="flex items-center gap-3">
+                    <div class="p-2 bg-indigo-500/10 text-indigo-500 rounded-xl" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 00-2 2h2m2 4h10a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold tracking-tight" id="modal-title">Cetak Cheat Sheet</h3>
+                </div>
+                <button onclick="closePrintModal()" class="opacity-50 hover:opacity-100 transition" aria-label="Tutup popup">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <p class="text-sm opacity-80 mb-6 leading-relaxed">Sebelum dicetak bolak-balik pada kertas A4, jika Anda ingin mendukung *project* ini, Anda dapat menyalin nomor DANA (<strong>083820666909</strong>) terlebih dahulu sebagai dukungan untuk *publisher* <strong>abaz 2026</strong>. Terima kasih!</p>
+            <div class="flex flex-col sm:flex-row gap-3 justify-end">
+                <button onclick="proceedToPrint(false)" class="px-4 py-2.5 rounded-xl font-semibold text-xs border transition-colors hover:opacity-75" style="background-color: var(--apple-button-bg); color: var(--apple-text-main); border-color: var(--apple-border);">Cetak Langsung</button>
+                <button onclick="proceedToPrint(true)" class="px-4 py-2.5 rounded-xl font-semibold text-xs text-white bg-indigo-600 hover:bg-indigo-700 transition-colors shadow-sm">Salin DANA & Cetak</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- APPLE-STYLE NAV BAR -->
+    <header class="no-print sticky top-0 z-40 backdrop-blur-md border-b transition-colors duration-300" style="background-color: rgba(245, 245, 247, 0.85); border-color: var(--apple-border);" id="apple-nav">
+        <div class="max-w-7xl mx-auto px-6 py-3 flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="bg-indigo-600/10 p-2 rounded-xl text-indigo-500" aria-hidden="true">
+                    <!-- SVG Server Icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-base font-semibold tracking-tight">Cheat Sheet Jaringan Komputer</h1>
+                    <p class="text-[11px] opacity-75 font-mono">Diterbitkan oleh abaz 2026</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2 flex-wrap">
+                <!-- Tombol Aksesibilitas Ganti Tema -->
+                <!-- Default state: Moon icon and "Tema Gelap" because body starts with light-theme -->
+                <button onclick="toggleTheme()" id="themeToggleBtn" aria-label="Ganti tema tampilan" class="px-3 py-2 rounded-full font-semibold text-xs transition-all flex items-center gap-2" style="background-color: var(--apple-button-bg); color: var(--apple-text-main);">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" id="theme-icon" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                    <span id="theme-text">Tema Gelap</span>
+                </button>
+
+                <!-- Tombol Mode Cetak -->
+                <button onclick="toggleVisualMode()" id="viewModeBtn" aria-label="Ganti tata letak cetak" class="px-3 py-2 rounded-full font-semibold text-xs transition-all" style="background-color: var(--apple-button-bg); color: var(--apple-text-main);">
+                    Mode Layar Penuh
+                </button>
+
+                <!-- Tombol Aksi Cetak (Sekarang manggil Popup) -->
+                <button onclick="showPrintModal()" aria-label="Buka opsi cetak" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-full font-semibold text-xs flex items-center gap-2 transition shadow-md shadow-indigo-500/10">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 00-2 2h2m2 4h10a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                    </svg>
+                    Cetak A4
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- DONATION BAR & IDENTITY (Informasi DANA & abaz 2026) -->
+    <aside class="no-print max-w-7xl mx-auto px-6 mt-6" aria-label="Informasi Donasi Publisher">
+        <div class="p-5 rounded-2xl border flex flex-col md:flex-row justify-between items-center gap-4 shadow-sm transition-all" style="background-color: var(--apple-bg-card); border-color: var(--apple-border);">
+            <div class="flex items-center gap-4">
+                <div class="p-3 bg-amber-500/10 text-amber-500 rounded-2xl" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="text-sm font-bold tracking-tight">Dukung Keberlanjutan Project Cheat Sheet</h2>
+                    <p class="text-xs opacity-75 mt-0.5">Suka dengan karya ini? Donasi aman via Dana untuk pengembang <strong>abaz 2026</strong>.</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 w-full md:w-auto justify-end">
+                <div class="px-4 py-2 rounded-xl border font-mono text-xs font-bold" style="background-color: var(--apple-bg-terminal); border-color: var(--apple-border);">
+                    DANA: 083820666909
+                </div>
+                <button onclick="copyDanaNumber()" aria-label="Salin nomor dana" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-full font-semibold text-xs transition shadow-sm">
+                    Salin No. DANA
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- INTERACTIVE SECTION (Hanya muncul di Layar) -->
+    <div class="no-print max-w-7xl mx-auto px-6 mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6" id="interactive-tools">
+        <!-- Kalkulator Subnetting -->
+        <section class="lg:col-span-6 p-6 rounded-2xl border transition-all shadow-sm" style="background-color: var(--apple-bg-card); border-color: var(--apple-border);" aria-label="Kalkulator Subnetting">
+            <h2 class="text-sm font-bold tracking-tight mb-4 flex items-center gap-2" style="color: var(--apple-text-accent);">
+                <span class="p-1 rounded bg-indigo-500/10" aria-hidden="true">🔧</span> Subnet Calculator Instan
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+                <div class="sm:col-span-2">
+                    <label for="calc-ip" class="block text-xs font-semibold opacity-75 mb-1.5">IP Address</label>
+                    <input id="calc-ip" type="text" value="192.168.17.0" class="w-full border rounded-xl px-3 py-2.5 text-sm font-mono transition-colors focus:ring-2 focus:ring-indigo-500/50 outline-none" style="background-color: var(--apple-bg-terminal); border-color: var(--apple-border); color: var(--apple-text-main);">
+                </div>
+                <div>
+                    <label for="calc-prefix" class="block text-xs font-semibold opacity-75 mb-1.5">Prefix (CIDR)</label>
+                    <select id="calc-prefix" class="w-full border rounded-xl px-3 py-2.5 text-sm font-mono transition-colors focus:ring-2 focus:ring-indigo-500/50 outline-none" style="background-color: var(--apple-bg-terminal); border-color: var(--apple-border); color: var(--apple-text-main);">
+                        <option value="30">/30</option>
+                        <option value="29">/29</option>
+                        <option value="28">/28</option>
+                        <option value="27">/27</option>
+                        <option value="26" selected>/26</option>
+                        <option value="25">/25</option>
+                        <option value="24">/24</option>
+                        <option value="23">/23</option>
+                        <option value="22">/22</option>
+                    </select>
+                </div>
+            </div>
+            <button onclick="calculateSubnet()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2.5 rounded-xl text-xs font-semibold tracking-wider transition uppercase shadow-sm">Hitung Subnet</button>
+            
+            <div class="grid grid-cols-2 gap-3 mt-4 text-xs font-mono" id="calc-results" aria-live="polite">
+                <div class="p-3 rounded-xl border" style="background-color: var(--apple-bg-terminal); border-color: var(--apple-border);">
+                    <span class="opacity-60 block mb-1">Subnet Mask:</span>
+                    <span class="font-semibold text-sm" style="color: var(--apple-text-accent);" id="res-mask">255.255.255.192</span>
+                </div>
+                <div class="p-3 rounded-xl border" style="background-color: var(--apple-bg-terminal); border-color: var(--apple-border);">
+                    <span class="opacity-60 block mb-1">Wildcard:</span>
+                    <span class="font-semibold text-sm text-amber-500" id="res-wildcard">0.0.0.63</span>
+                </div>
+                <div class="p-3 rounded-xl border" style="background-color: var(--apple-bg-terminal); border-color: var(--apple-border);">
+                    <span class="opacity-60 block mb-1">Network Address (NA):</span>
+                    <span class="font-semibold text-sm text-emerald-500" id="res-na">192.168.17.0</span>
+                </div>
+                <div class="p-3 rounded-xl border" style="background-color: var(--apple-bg-terminal); border-color: var(--apple-border);">
+                    <span class="opacity-60 block mb-1">Broadcast Address (BA):</span>
+                    <span class="font-semibold text-sm text-rose-500" id="res-ba">192.168.17.63</span>
+                </div>
+                <div class="col-span-2 p-3 rounded-xl border" style="background-color: var(--apple-bg-terminal); border-color: var(--apple-border);">
+                    <span class="opacity-60 block mb-1">Range Host Valid:</span>
+                    <span class="font-semibold text-sm" id="res-range">192.168.17.1 - 192.168.17.62</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- CLI Command Builder Quick Lookup -->
+        <section class="lg:col-span-6 p-6 rounded-2xl border transition-all flex flex-col justify-between shadow-sm" style="background-color: var(--apple-bg-card); border-color: var(--apple-border);" aria-label="Generator Perintah CLI">
+            <div>
+                <h2 class="text-sm font-bold tracking-tight mb-4 flex items-center gap-2" style="color: var(--apple-accent-emerald);">
+                    <span class="p-1 rounded bg-emerald-500/10" aria-hidden="true">⚡</span> Generator CLI Cepat
+                </h2>
+                <div class="grid grid-cols-2 gap-2 mb-4">
+                    <button onclick="loadTemplate('dhcp')" class="hover:bg-opacity-80 p-3 text-left rounded-xl text-xs border transition-all outline-none focus:ring-2 focus:ring-emerald-500/50" style="background-color: var(--apple-bg-terminal); border-color: var(--apple-border);">
+                        <strong class="block mb-0.5" style="color: var(--apple-accent-emerald);">DHCP Server</strong> Config IP pools & DNS
+                    </button>
+                    <button onclick="loadTemplate('ospf')" class="hover:bg-opacity-80 p-3 text-left rounded-xl text-xs border transition-all outline-none focus:ring-2 focus:ring-emerald-500/50" style="background-color: var(--apple-bg-terminal); border-color: var(--apple-border);">
+                        <strong class="block mb-0.5" style="color: var(--apple-accent-emerald);">Routing OSPF</strong> Multi-area & wildcard
+                    </button>
+                    <button onclick="loadTemplate('intervlan')" class="hover:bg-opacity-80 p-3 text-left rounded-xl text-xs border transition-all outline-none focus:ring-2 focus:ring-emerald-500/50" style="background-color: var(--apple-bg-terminal); border-color: var(--apple-border);">
+                        <strong class="block mb-0.5" style="color: var(--apple-accent-emerald);">Inter-VLAN</strong> Router-on-a-Stick
+                    </button>
+                    <button onclick="loadTemplate('acl')" class="hover:bg-opacity-80 p-3 text-left rounded-xl text-xs border transition-all outline-none focus:ring-2 focus:ring-emerald-500/50" style="background-color: var(--apple-bg-terminal); border-color: var(--apple-border);">
+                        <strong class="block mb-0.5" style="color: var(--apple-accent-emerald);">ACL Filtering</strong> Standard & Extended
+                    </button>
+                </div>
+            </div>
+            <div class="p-3 rounded-xl border relative font-mono text-xs shadow-inner" style="background-color: var(--apple-bg-terminal); border-color: var(--apple-border);">
+                <button onclick="copyToClipboard('cli-box-code')" class="absolute top-2.5 right-2.5 px-2.5 py-1 rounded-full font-semibold text-[10px] transition" style="background-color: var(--apple-button-bg); color: var(--apple-text-main);">Copy</button>
+                <pre class="overflow-x-auto h-24 whitespace-pre-wrap leading-relaxed" id="cli-box-code" style="color: var(--apple-accent-emerald);"># Pilih template di atas untuk menampilkan sintaks CLI cepat.</pre>
+            </div>
+        </section>
+    </div>
+
+    <!-- DOCUMENT PAGE CONTAINER -->
+    <main class="mt-8 flex flex-col items-center gap-8 px-4" id="document-layout">
+        
+        <!-- ==================== HALAMAN 1 (PAGE 1) ==================== -->
+        <section id="p1" class="print-page a4-container shadow-sm rounded-3xl border flex flex-col justify-between p-[12mm] relative transition-all duration-300" style="background-color: var(--apple-bg-card); border-color: var(--apple-border);">
+            <div>
+                <!-- Header Dokumen -->
+                <div class="border-b pb-4 mb-5 flex justify-between items-end print-clean" style="border-color: var(--apple-border);">
+                    <div>
+                        <span class="text-xs font-bold tracking-widest uppercase" style="color: var(--apple-text-accent);">Praktikum Jaringan Komputer</span>
+                        <h2 class="text-xl font-extrabold tracking-tight mt-1">CHEAT SHEET JARKOM: CORE NETWORKING</h2>
+                    </div>
+                    <div class="text-right text-xs font-mono opacity-60">
+                        <span>Halaman 1 / 2</span>
+                    </div>
+                </div>
+
+                <!-- Bagian 1: Tabel CIDR & Subnetting -->
+                <article class="mb-6">
+                    <h3 class="text-xs font-bold px-3 py-1.5 rounded mb-3 border-l-4 uppercase font-mono tracking-wider shadow-sm" style="background-color: var(--apple-bg-body); border-color: var(--apple-text-accent);" id="heading-cidr">1. CIDR (Classless Inter-Domain Routing) Table</h3>
+                    <div class="overflow-x-auto rounded-xl border" style="border-color: var(--apple-border);">
+                        <table class="w-full text-left border-collapse text-xs" aria-describedby="heading-cidr">
+                            <thead>
+                                <tr class="border-b font-semibold opacity-85 print-clean" style="border-color: var(--apple-border); background-color: var(--apple-bg-terminal);">
+                                    <th class="py-2 px-3">Prefix</th>
+                                    <th class="py-2 px-3">Subnet Mask</th>
+                                    <th class="py-2 px-3">Wildcard Mask</th>
+                                    <th class="py-2 px-3 text-right">Total IP</th>
+                                    <th class="py-2 px-3 text-right">Usable Host</th>
+                                    <th class="py-2 px-3">Contoh Penggunaan / Catatan</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y font-mono" style="border-color: var(--apple-border);" id="cidr-tbody">
+                                <tr class="hover:bg-opacity-50 transition-colors" style="background-color: var(--apple-bg-body);">
+                                    <td class="py-1.5 px-3 font-bold">/22</td>
+                                    <td class="py-1.5 px-3">255.255.252.0</td>
+                                    <td class="py-1.5 px-3">0.0.3.255</td>
+                                    <td class="py-1.5 px-3 text-right opacity-70">1024</td>
+                                    <td class="py-1.5 px-3 text-right font-bold" style="color: var(--apple-text-accent);">1022</td>
+                                    <td class="py-1.5 px-3 text-[10px] opacity-75">Network skala sedang (lab besar/gedung)</td>
+                                </tr>
+                                <tr class="hover:bg-opacity-50 transition-colors" style="background-color: var(--apple-bg-body);">
+                                    <td class="py-1.5 px-3 font-bold">/23</td>
+                                    <td class="py-1.5 px-3">255.255.254.0</td>
+                                    <td class="py-1.5 px-3">0.0.1.255</td>
+                                    <td class="py-1.5 px-3 text-right opacity-70">512</td>
+                                    <td class="py-1.5 px-3 text-right font-bold" style="color: var(--apple-text-accent);">510</td>
+                                    <td class="py-1.5 px-3 text-[10px] opacity-75">Gabungan 2 block /24</td>
+                                </tr>
+                                <tr class="hover:bg-opacity-50 transition-colors" style="background-color: var(--apple-bg-body);">
+                                    <td class="py-1.5 px-3 font-bold">/24</td>
+                                    <td class="py-1.5 px-3">255.255.255.0</td>
+                                    <td class="py-1.5 px-3">0.0.0.255</td>
+                                    <td class="py-1.5 px-3 text-right opacity-70">256</td>
+                                    <td class="py-1.5 px-3 text-right font-bold" style="color: var(--apple-text-accent);">254</td>
+                                    <td class="py-1.5 px-3 text-[10px] opacity-75">Default Class C (paling populer)</td>
+                                </tr>
+                                <tr class="hover:bg-opacity-50 transition-colors" style="background-color: var(--apple-bg-body);">
+                                    <td class="py-1.5 px-3 font-bold">/25</td>
+                                    <td class="py-1.5 px-3">255.255.255.128</td>
+                                    <td class="py-1.5 px-3">0.0.0.127</td>
+                                    <td class="py-1.5 px-3 text-right opacity-70">128</td>
+                                    <td class="py-1.5 px-3 text-right font-bold" style="color: var(--apple-text-accent);">126</td>
+                                    <td class="py-1.5 px-3 text-[10px] opacity-75">Setengah ruang IP /24</td>
+                                </tr>
+                                <tr class="hover:bg-opacity-50 transition-colors" style="background-color: var(--apple-bg-body);">
+                                    <td class="py-1.5 px-3 font-bold">/26</td>
+                                    <td class="py-1.5 px-3">255.255.255.192</td>
+                                    <td class="py-1.5 px-3">0.0.0.63</td>
+                                    <td class="py-1.5 px-3 text-right opacity-70">64</td>
+                                    <td class="py-1.5 px-3 text-right font-bold" style="color: var(--apple-text-accent);">62</td>
+                                    <td class="py-1.5 px-3 text-[10px] opacity-75">Kebutuhan standard sub-departemen</td>
+                                </tr>
+                                <tr class="hover:bg-opacity-50 transition-colors" style="background-color: var(--apple-bg-body);">
+                                    <td class="py-1.5 px-3 font-bold">/27</td>
+                                    <td class="py-1.5 px-3">255.255.255.224</td>
+                                    <td class="py-1.5 px-3">0.0.0.31</td>
+                                    <td class="py-1.5 px-3 text-right opacity-70">32</td>
+                                    <td class="py-1.5 px-3 text-right font-bold" style="color: var(--apple-text-accent);">30</td>
+                                    <td class="py-1.5 px-3 text-[10px] opacity-75">Ruangan kantor kecil</td>
+                                </tr>
+                                <tr class="hover:bg-opacity-50 transition-colors" style="background-color: var(--apple-bg-body);">
+                                    <td class="py-1.5 px-3 font-bold">/28</td>
+                                    <td class="py-1.5 px-3">255.255.255.240</td>
+                                    <td class="py-1.5 px-3">0.0.0.15</td>
+                                    <td class="py-1.5 px-3 text-right opacity-70">16</td>
+                                    <td class="py-1.5 px-3 text-right font-bold" style="color: var(--apple-text-accent);">14</td>
+                                    <td class="py-1.5 px-3 text-[10px] opacity-75">Network admin, server farm kecil</td>
+                                </tr>
+                                <tr class="hover:bg-opacity-50 transition-colors" style="background-color: var(--apple-bg-body);">
+                                    <td class="py-1.5 px-3 font-bold">/29</td>
+                                    <td class="py-1.5 px-3">255.255.255.248</td>
+                                    <td class="py-1.5 px-3">0.0.0.7</td>
+                                    <td class="py-1.5 px-3 text-right opacity-70">8</td>
+                                    <td class="py-1.5 px-3 text-right font-bold" style="color: var(--apple-text-accent);">6</td>
+                                    <td class="py-1.5 px-3 text-[10px] opacity-75">Infrastruktur, IP publik terbatas</td>
+                                </tr>
+                                <tr class="hover:bg-opacity-50 transition-colors" style="background-color: var(--apple-bg-body);">
+                                    <td class="py-1.5 px-3 font-bold">/30</td>
+                                    <td class="py-1.5 px-3">255.255.255.252</td>
+                                    <td class="py-1.5 px-3">0.0.0.3</td>
+                                    <td class="py-1.5 px-3 text-right opacity-70">4</td>
+                                    <td class="py-1.5 px-3 text-right font-bold" style="color: var(--apple-text-accent);">2</td>
+                                    <td class="py-1.5 px-3 text-[10px] opacity-75">Point-to-Point (Inter-Router link)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+
+                <!-- Bagian 2: FLSM vs VLSM -->
+                <article class="mb-6">
+                    <h3 class="text-xs font-bold px-3 py-1.5 rounded mb-3 border-l-4 uppercase font-mono tracking-wider shadow-sm" style="background-color: var(--apple-bg-body); border-color: var(--apple-text-accent);">2. FLSM & VLSM (Subnetting Strategy)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-3 text-xs">
+                        <div class="md:col-span-5 p-3 rounded-xl border" style="background-color: var(--apple-bg-body); border-color: var(--apple-border);">
+                            <h4 class="font-bold mb-1.5">Definisi Strategi:</h4>
+                            <ul class="list-disc pl-4 space-y-1 opacity-90">
+                                <li><strong>FLSM (Fixed Length)</strong>: Semua subnet memiliki ukuran mask yang sama. Mudah dikelola, boros IP.</li>
+                                <li><strong>VLSM (Variable Length)</strong>: Subnet dikalokasikan berdasarkan jumlah host terbanyak ke terkecil. Sangat hemat IP.</li>
+                            </ul>
+                            <div class="mt-2.5 p-2.5 rounded-lg text-[10px] font-mono leading-relaxed" style="background-color: var(--apple-bg-terminal); color: var(--apple-accent-amber);">
+                                <strong>Rumus Dasar:</strong><br>
+                                • Jumlah IP = 2<sup>(32 - prefix)</sup><br>
+                                • Host Usable = Total IP - 2 (NA & BA)
+                            </div>
+                        </div>
+
+                        <!-- Contoh Studi Kasus VLSM Terstruktur -->
+                        <div class="md:col-span-7 p-3 rounded-xl border" style="background-color: var(--apple-bg-body); border-color: var(--apple-border);">
+                            <h4 class="font-bold mb-1.5">Kasus VLSM (IP Global: 192.168.17.0/24)</h4>
+                            <table class="w-full text-left text-[11px] font-mono border-collapse">
+                                <thead>
+                                    <tr class="border-b opacity-80 font-semibold" style="border-color: var(--apple-border);">
+                                        <th class="py-1">Ruang</th>
+                                        <th class="py-1">Butuh</th>
+                                        <th class="py-1">Prefix</th>
+                                        <th class="py-1">Network (NA)</th>
+                                        <th class="py-1">IP Range</th>
+                                        <th class="py-1">BA</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b border-opacity-10" style="border-color: var(--apple-border);">
+                                        <td class="py-1">R1 (Admin)</td>
+                                        <td class="py-1">32 host</td>
+                                        <td class="py-1 font-bold" style="color: var(--apple-text-accent);">/26</td>
+                                        <td class="py-1">192.168.17.0</td>
+                                        <td class="py-1">.1 - .62</td>
+                                        <td class="py-1">.63</td>
+                                    </tr>
+                                    <tr class="border-b border-opacity-10" style="border-color: var(--apple-border);">
+                                        <td class="py-1">R2 (Staff)</td>
+                                        <td class="py-1">30 host</td>
+                                        <td class="py-1 font-bold" style="color: var(--apple-text-accent);">/26</td>
+                                        <td class="py-1">192.168.17.64</td>
+                                        <td class="py-1">.65 - .126</td>
+                                        <td class="py-1">.127</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-1">R3 (Server)</td>
+                                        <td class="py-1">8 host</td>
+                                        <td class="py-1 font-bold" style="color: var(--apple-text-accent);">/28</td>
+                                        <td class="py-1">192.168.17.128</td>
+                                        <td class="py-1">.129 - .142</td>
+                                        <td class="py-1">.143</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="text-[10px] opacity-60 mt-2 italic">💡 Tips: Urutkan alokasi dari kebutuhan host terbesar terlebih dahulu!</div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Bagian 3: Konfigurasi Dasar Perangkat & DHCP Server -->
+                <article class="mb-6">
+                    <h3 class="text-xs font-bold px-3 py-1.5 rounded mb-3 border-l-4 uppercase font-mono tracking-wider shadow-sm" style="background-color: var(--apple-bg-body); border-color: var(--apple-text-accent);">3. Basic Device Setup & DHCP Server</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <!-- CLI Router Setup -->
+                        <div class="p-3 rounded-xl border font-mono text-xs" style="background-color: var(--apple-bg-body); border-color: var(--apple-border);">
+                            <span class="font-bold block mb-1.5" style="color: var(--apple-accent-amber);">⚡ BASIC CONFIG IP ROUTER</span>
+                            <div class="p-2.5 rounded-lg text-[11px] space-y-0.5 print:bg-slate-50" style="background-color: var(--apple-bg-terminal);">
+                                Router&gt; <span style="color: var(--apple-text-accent);">enable</span><br>
+                                Router# <span style="color: var(--apple-text-accent);">config terminal</span><br>
+                                Router(config)# <span style="color: var(--apple-text-accent);">interface fastEthernet 0/0</span><br>
+                                Router(config-if)# <span style="color: var(--apple-text-accent);">ip address 192.168.10.1 255.255.255.0</span><br>
+                                Router(config-if)# <span style="color: var(--apple-text-accent);">no shutdown</span><br>
+                                Router(config-if)# <span style="color: var(--apple-text-accent);">exit</span>
+                            </div>
+                        </div>
+
+                        <!-- DHCP Server Config -->
+                        <div class="p-3 rounded-xl border font-mono text-xs" style="background-color: var(--apple-bg-body); border-color: var(--apple-border);">
+                            <span class="font-bold block mb-1.5" style="color: var(--apple-accent-amber);">⚡ DHCP SERVER CONFIGURATION</span>
+                            <div class="p-2.5 rounded-lg text-[11px] space-y-0.5 print:bg-slate-50" style="background-color: var(--apple-bg-terminal);">
+                                Router(config)# <span style="color: var(--apple-text-accent);">ip dhcp pool dhcp-staff</span><br>
+                                Router(dhcp-config)# <span style="color: var(--apple-text-accent);">network 192.168.10.0 255.255.255.0</span><br>
+                                Router(dhcp-config)# <span style="color: var(--apple-text-accent);">default-router 192.168.10.1</span><br>
+                                Router(dhcp-config)# <span style="color: var(--apple-text-accent);">dns-server 192.168.17.161</span><br>
+                                Router(dhcp-config)# <span style="color: var(--apple-text-accent);">exit</span><br>
+                                Router(config)# <span style="color: var(--apple-text-accent);">ip dhcp excluded-address 192.168.10.1 192.168.10.5</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Bagian Tambahan: Konfigurasi Server Terintegrasi -->
+                <article>
+                    <h3 class="text-xs font-bold px-3 py-1.5 rounded mb-3 border-l-4 uppercase font-mono tracking-wider shadow-sm" style="background-color: var(--apple-bg-body); border-color: var(--apple-text-accent);">4. Server & Wireless Quick Config (Packet Tracer)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                        <div class="p-3 rounded-xl border" style="background-color: var(--apple-bg-body); border-color: var(--apple-border);">
+                            <strong class="block mb-1.5 font-mono" style="color: var(--apple-accent-emerald);">🌐 Web Server (HTTP)</strong>
+                            <p class="opacity-80 text-[11px] leading-relaxed">Buka tab <strong>Services</strong> &rarr; Pilih <strong>HTTP</strong> &rarr; Pastikan status <strong>On</strong>. Edit berkas <code class="px-1.5 py-0.5 rounded font-mono text-[10px]" style="background-color: var(--apple-bg-terminal); color: var(--apple-text-accent);">index.html</code> sesuai kebutuhan praktikum.</p>
+                        </div>
+                        <div class="p-3 rounded-xl border" style="background-color: var(--apple-bg-body); border-color: var(--apple-border);">
+                            <strong class="block mb-1.5 font-mono" style="color: var(--apple-accent-emerald);">📛 DNS Server (Domain)</strong>
+                            <p class="opacity-80 text-[11px] leading-relaxed">Tab <strong>Services</strong> &rarr; <strong>DNS</strong> &rarr; status <strong>On</strong>.<br>Tambahkan record:<br>
+                            • Name: <code style="color: var(--apple-text-accent);">webadmin.com</code><br>
+                            • Type: <code style="color: var(--apple-text-accent);">A Record</code><br>
+                            • Address: <code style="color: var(--apple-text-accent);">192.168.17.166</code></p>
+                        </div>
+                        <div class="p-3 rounded-xl border" style="background-color: var(--apple-bg-body); border-color: var(--apple-border);">
+                            <strong class="block mb-1.5 font-mono" style="color: var(--apple-accent-emerald);">📶 Wireless Access Point</strong>
+                            <p class="opacity-80 text-[11px] leading-relaxed">Klik AP &rarr; Tab <strong>Config</strong> &rarr; Pilih <strong>Port 1</strong>:<br>
+                            • Set SSID: <code style="color: var(--apple-text-accent);">AP-KAMPUS</code><br>
+                            • Security: <strong>WPA2-PSK</strong><br>
+                            • Masukkan password rahasia.</p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Footer Halaman 1 -->
+            <footer class="border-t pt-3 flex justify-between items-center text-[10px] opacity-60 print-clean" style="border-color: var(--apple-border);">
+                <span>Publikasi Mandiri: abaz 2026</span>
+                <span>Gunakan Pintasan Ctrl+P / Cmd+P untuk Cetak PDF</span>
+            </footer>
+        </section>
+
+
+        <!-- ==================== HALAMAN 2 (PAGE 2) ==================== -->
+        <section id="p2" class="print-page a4-container shadow-sm rounded-3xl border flex flex-col justify-between p-[12mm] relative transition-all duration-300" style="background-color: var(--apple-bg-card); border-color: var(--apple-border);">
+            <div>
+                <!-- Header Dokumen Halaman 2 -->
+                <div class="border-b pb-4 mb-5 flex justify-between items-end print-clean" style="border-color: var(--apple-border);">
+                    <div>
+                        <span class="text-xs font-bold tracking-widest uppercase" style="color: var(--apple-text-accent);">Praktikum Jaringan Komputer</span>
+                        <h2 class="text-xl font-extrabold tracking-tight mt-1">ROUTING, VLAN, SECURITY (ACL)</h2>
+                    </div>
+                    <div class="text-right text-xs font-mono opacity-60">
+                        <span>Halaman 2 / 2</span>
+                    </div>
+                </div>
+
+                <!-- Bagian 5: Routing Dasar (Statis, RIPv2, OSPF) -->
+                <article class="mb-5">
+                    <h3 class="text-xs font-bold px-3 py-1.5 rounded mb-3 border-l-4 uppercase font-mono tracking-wider shadow-sm" style="background-color: var(--apple-bg-body); border-color: var(--apple-text-accent);">5. Routing Configuration (Static & Dynamic)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 font-mono text-xs">
+                        <!-- Static Routing -->
+                        <div class="p-3 rounded-xl border" style="background-color: var(--apple-bg-body); border-color: var(--apple-border);">
+                            <span class="font-bold block mb-1.5" style="color: var(--apple-accent-amber);">📍 STATIC ROUTE</span>
+                            <div class="p-2.5 rounded-lg text-[10px] print:bg-slate-50 leading-relaxed" style="background-color: var(--apple-bg-terminal);">
+                                <span class="opacity-50"># ip route [NA] [Mask] [Next-Hop]</span><br>
+                                Router(config)# <span style="color: var(--apple-text-accent);">ip route 192.168.20.0 255.255.255.0 10.10.10.2</span>
+                            </div>
+                        </div>
+
+                        <!-- RIPv2 Routing -->
+                        <div class="p-3 rounded-xl border" style="background-color: var(--apple-bg-body); border-color: var(--apple-border);">
+                            <span class="font-bold block mb-1.5" style="color: var(--apple-accent-amber);">⚡ RIP VERSION 2</span>
+                            <div class="p-2.5 rounded-lg text-[10px] print:bg-slate-50 leading-relaxed" style="background-color: var(--apple-bg-terminal);">
+                                Router(config)# <span style="color: var(--apple-text-accent);">router rip</span><br>
+                                Router(config-router)# <span style="color: var(--apple-text-accent);">version 2</span><br>
+                                Router(config-router)# <span style="color: var(--apple-text-accent);">no auto-summary</span><br>
+                                Router(config-router)# <span style="color: var(--apple-text-accent);">network 192.168.10.0</span>
+                            </div>
+                        </div>
+
+                        <!-- OSPF Routing -->
+                        <div class="p-3 rounded-xl border" style="background-color: var(--apple-bg-body); border-color: var(--apple-border);">
+                            <span class="font-bold block mb-1.5" style="color: var(--apple-accent-amber);">⚡ OSPF (SINGLE AREA)</span>
+                            <div class="p-2.5 rounded-lg text-[10px] print:bg-slate-50 leading-relaxed" style="background-color: var(--apple-bg-terminal);">
+                                <span class="opacity-50"># Gunakan Wildcard Mask (WC)</span><br>
+                                Router(config)# <span style="color: var(--apple-text-accent);">router ospf 1</span><br>
+                                Router(config-router)# <span style="color: var(--apple-text-accent);">network 192.168.10.0 0.0.0.255 area 0</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Bagian 6: Route Redistribution -->
+                <article class="mb-5">
+                    <h3 class="text-xs font-bold px-3 py-1.5 rounded mb-3 border-l-4 uppercase font-mono tracking-wider shadow-sm" style="background-color: var(--apple-bg-body); border-color: var(--apple-text-accent);">6. Route Redistribution (Cross-Protocol)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 font-mono text-xs">
+                        <div class="p-3 rounded-xl border" style="background-color: var(--apple-bg-body); border-color: var(--apple-border);">
+                            <span class="font-bold block mb-1" style="color: var(--apple-accent-emerald);">🔁 OSPF &rarr; RIPv2</span>
+                            <div class="p-2.5 rounded-lg text-[10px] print:bg-slate-50 leading-normal" style="background-color: var(--apple-bg-terminal);">
+                                Router(config)# <span style="color: var(--apple-text-accent);">router rip</span><br>
+                                Router(config-router)# <span style="color: var(--apple-text-accent);">redistribute ospf 1 metric 1</span><br>
+                                <span class="opacity-50 italic">// RIP wajib menyertakan nilai 'metric' (hop count) agar rute dapat dipahami</span>
+                            </div>
+                        </div>
+                        <div class="p-3 rounded-xl border" style="background-color: var(--apple-bg-body); border-color: var(--apple-border);">
+                            <span class="font-bold block mb-1" style="color: var(--apple-accent-emerald);">🔁 RIPv2 &rarr; OSPF</span>
+                            <div class="p-2.5 rounded-lg text-[10px] print:bg-slate-50 leading-normal" style="background-color: var(--apple-bg-terminal);">
+                                Router(config)# <span style="color: var(--apple-text-accent);">router ospf 1</span><br>
+                                Router(config-router)# <span style="color: var(--apple-text-accent);">redistribute rip subnets</span><br>
+                                <span class="opacity-50 italic">// Gunakan keyword 'subnets' agar rute classless dapat diredistribusi</span>
+                            </div>
+                        </div>
+                        <div class="p-3 rounded-xl border" style="background-color: var(--apple-bg-body); border-color: var(--apple-border);">
+                            <span class="font-bold block mb-1" style="color: var(--apple-accent-emerald);">🔁 Static Route &rarr; OSPF / RIPv2</span>
+                            <div class="p-2.5 rounded-lg text-[10px] print:bg-slate-50 leading-normal" style="background-color: var(--apple-bg-terminal);">
+                                <span class="opacity-55"># OSPF:</span> Router(config-router)# <span style="color: var(--apple-text-accent);">redistribute static subnets</span><br>
+                                <span class="opacity-55"># RIP: </span> Router(config-router)# <span style="color: var(--apple-text-accent);">redistribute static</span>
+                            </div>
+                        </div>
+                        <div class="p-3 rounded-xl border" style="background-color: var(--apple-bg-body); border-color: var(--apple-border);">
+                            <span class="font-bold block mb-1" style="color: var(--apple-accent-emerald);">🔁 Default Route (0.0.0.0/0) Advertisement</span>
+                            <div class="p-2.5 rounded-lg text-[10px] print:bg-slate-50 leading-normal" style="background-color: var(--apple-bg-terminal);">
+                                Router(config)# <span style="color: var(--apple-text-accent);">ip route 0.0.0.0 0.0.0.0 10.10.10.2</span><br>
+                                Router(config)# <span style="color: var(--apple-text-accent);">router ospf 1</span><br>
+                                Router(config-router)# <span style="color: var(--apple-text-accent);">default-information originate</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Bagian 7: VLAN & Inter-VLAN -->
+                <article class="mb-5">
+                    <h3 class="text-xs font-bold px-3 py-1.5 rounded mb-3 border-l-4 uppercase font-mono tracking-wider shadow-sm" style="background-color: var(--apple-bg-body); border-color: var(--apple-text-accent);">7. VLAN & Inter-VLAN Routing</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 font-mono text-xs">
+                        <div class="p-3 rounded-xl border" style="background-color: var(--apple-bg-body); border-color: var(--apple-border);">
+                            <span class="font-bold block mb-1.5" style="color: var(--apple-accent-amber);">🎛️ SWITCH CONFIG (ACCESS & TRUNK)</span>
+                            <div class="p-2.5 rounded-lg text-[10px] print:bg-slate-50 space-y-0.5" style="background-color: var(--apple-bg-terminal);">
+                                <span class="opacity-50"># 1. Deklarasi VLAN Database</span><br>
+                                Switch(config)# <span style="color: var(--apple-text-accent);">vlan 10</span> &rarr; <span style="color: var(--apple-text-accent);">name Staff</span><br>
+                                Switch(config)# <span style="color: var(--apple-text-accent);">vlan 20</span> &rarr; <span style="color: var(--apple-text-accent);">name Guest</span><br>
+                                <span class="opacity-50"># 2. Alokasikan Interface ke VLAN (Access)</span><br>
+                                Switch(config)# <span style="color: var(--apple-text-accent);">interface fa0/5</span><br>
+                                Switch(config-if)# <span style="color: var(--apple-text-accent);">switchport mode access</span><br>
+                                Switch(config-if)# <span style="color: var(--apple-text-accent);">switchport access vlan 10</span><br>
+                                <span class="opacity-50"># 3. Port Trunk (Penghubung Router/Switch)</span><br>
+                                Switch(config)# <span style="color: var(--apple-text-accent);">interface fa0/1</span><br>
+                                Switch(config-if)# <span style="color: var(--apple-text-accent);">switchport mode trunk</span>
+                            </div>
+                        </div>
+
+                        <div class="p-3 rounded-xl border" style="background-color: var(--apple-bg-body); border-color: var(--apple-border);">
+                            <span class="font-bold block mb-1.5" style="color: var(--apple-accent-amber);">🛰️ ROUTER CONFIG (ROUTER-ON-A-STICK)</span>
+                            <div class="p-2.5 rounded-lg text-[10px] print:bg-slate-50 space-y-0.5" style="background-color: var(--apple-bg-terminal);">
+                                <span class="opacity-50"># 1. Aktifkan Interface Fisik</span><br>
+                                Router(config)# <span style="color: var(--apple-text-accent);">interface fa0/0</span><br>
+                                Router(config-if)# <span style="color: var(--apple-text-accent);">no shutdown</span> &rarr; <span style="color: var(--apple-text-accent);">exit</span><br>
+                                <span class="opacity-50"># 2. Sub-Interface VLAN 10</span><br>
+                                Router(config)# <span style="color: var(--apple-text-accent);">interface fa0/0.10</span><br>
+                                Router(config-subif)# <span style="color: var(--apple-text-accent);">encapsulation dot1Q 10</span><br>
+                                Router(config-subif)# <span style="color: var(--apple-text-accent);">ip address 192.168.10.1 255.255.255.0</span><br>
+                                <span class="opacity-50"># 3. Sub-Interface VLAN 20</span><br>
+                                Router(config)# <span style="color: var(--apple-text-accent);">interface fa0/0.20</span><br>
+                                Router(config-subif)# <span style="color: var(--apple-text-accent);">encapsulation dot1Q 20</span><br>
+                                Router(config-subif)# <span style="color: var(--apple-text-accent);">ip address 192.168.20.1 255.255.255.0</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Bagian 8: Access Control List (ACL) -->
+                <article class="mb-5">
+                    <h3 class="text-xs font-bold px-3 py-1.5 rounded mb-3 border-l-4 uppercase font-mono tracking-wider shadow-sm" style="background-color: var(--apple-bg-body); border-color: var(--apple-text-accent);">8. Security Filtering with Access Control List (ACL)</h3>
+                    <div class="p-3 rounded-xl border font-mono text-xs" style="background-color: var(--apple-bg-body); border-color: var(--apple-border);">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div>
+                                <span class="font-bold block mb-1" style="color: var(--apple-accent-rose);">🛡️ EXTENDED ACL (Studi Kasus Server)</span>
+                                <p class="opacity-70 text-[10px] leading-snug mb-1.5">Batasi hanya ruang admin (<code style="color: var(--apple-text-accent);">192.168.17.128/28</code>) yang boleh akses Admin Server (<code style="color: var(--apple-text-accent);">192.168.17.166</code>).</p>
+                                <div class="p-2.5 rounded-lg text-[10px] print:bg-slate-50 space-y-0.5" style="background-color: var(--apple-bg-terminal);">
+                                    <span class="opacity-50"># 1. Izinkan R.Admin (Wildcard /28 = 0.0.0.15)</span><br>
+                                    Router(config)# <span style="color: var(--apple-text-accent);">access-list 100 permit ip 192.168.17.128 0.0.0.15 host 192.168.17.166</span><br>
+                                    <span class="opacity-50"># 2. Tolak akses host lain ke Server</span><br>
+                                    Router(config)# <span style="color: var(--apple-text-accent);">access-list 100 deny ip any host 192.168.17.166</span><br>
+                                    <span class="opacity-50"># 3. Izinkan trafik sisa</span><br>
+                                    Router(config)# <span style="color: var(--apple-text-accent);">access-list 100 permit ip any any</span>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="font-bold block mb-1" style="color: var(--apple-accent-rose);">🔗 PENERAPAN INTERFACE</span>
+                                <p class="opacity-70 text-[10px] leading-snug mb-1.5">Aturan: Extended ACL diletakkan sedekat mungkin dengan pengirim (source) pada interface arah Outbound.</p>
+                                <div class="p-2.5 rounded-lg text-[10px] print:bg-slate-50 space-y-0.5" style="background-color: var(--apple-bg-terminal);">
+                                    Router(config)# <span style="color: var(--apple-text-accent);">interface fastEthernet 1/0</span><br>
+                                    Router(config-if)# <span style="color: var(--apple-text-accent);">ip access-group 100 out</span><br>
+                                    Router(config-if)# <span style="color: var(--apple-text-accent);">exit</span><br><br>
+                                    <span style="color: var(--apple-accent-amber);">📝 Simpan Config:</span><br>
+                                    Router# <span style="color: var(--apple-text-accent);">copy running-config startup-config</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Bagian 9: Perintah Verifikasi / Diagnosis -->
+                <article>
+                    <h3 class="text-xs font-bold px-3 py-1.5 rounded mb-3 border-l-4 uppercase font-mono tracking-wider shadow-sm" style="background-color: var(--apple-bg-body); border-color: var(--apple-text-accent);">9. Network Troubleshooting & Diagnostics Commands</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 font-mono text-[10px]">
+                        <div class="p-2.5 rounded-xl border" style="background-color: var(--apple-bg-body); border-color: var(--apple-border);">
+                            <strong class="block mb-1" style="color: var(--apple-accent-amber);">🔍 OSPF</strong>
+                            • show ip ospf neighbor<br>
+                            • show ip route ospf<br>
+                            • show ip ospf interface
+                        </div>
+                        <div class="p-2.5 rounded-xl border" style="background-color: var(--apple-bg-body); border-color: var(--apple-border);">
+                            <strong class="block mb-1" style="color: var(--apple-accent-amber);">🔍 ROUTING TABLE</strong>
+                            • show ip route<br>
+                            • show ip route static<br>
+                            • show ip route rip
+                        </div>
+                        <div class="p-2.5 rounded-xl border" style="background-color: var(--apple-bg-body); border-color: var(--apple-border);">
+                            <strong class="block mb-1" style="color: var(--apple-accent-amber);">🔍 DHCP & VLAN</strong>
+                            • show ip dhcp pool<br>
+                            • show ip dhcp binding<br>
+                            • show vlan brief
+                        </div>
+                        <div class="p-2.5 rounded-xl border" style="background-color: var(--apple-bg-body); border-color: var(--apple-border);">
+                            <strong class="block mb-1" style="color: var(--apple-accent-amber);">🔍 INTERFACE/CONF</strong>
+                            • show ip interface brief<br>
+                            • show running-config<br>
+                            • show ip access-lists
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+
+            <!-- Footer Halaman 2 -->
+            <footer class="border-t pt-3 flex justify-between items-center text-[10px] opacity-60 print-clean" style="border-color: var(--apple-border);">
+                <span>Publikasi Mandiri: abaz 2026</span>
+                <span>Pastikan interface fisik dalam keadaan 'no shutdown'</span>
+            </footer>
+        </section>
+
+    </main>
+
+    <!-- JAVASCRIPT LOGIC (Fungsionalitas & Fixes) -->
+    <script>
+        // Aksesibilitas: Toast custom pengganti alert() browser
+        function showToast(message, isSuccess = true) {
+            const toast = document.getElementById('toast');
+            const icon = document.getElementById('toast-icon');
+            const msg = document.getElementById('toast-msg');
+            
+            msg.innerText = message;
+            if (isSuccess) {
+                icon.innerText = "🟢";
+                toast.className = toast.className.replace('border-red-500', 'border-slate-700/80').replace('text-red-400', 'text-slate-100');
+            } else {
+                icon.innerText = "🔴";
+                toast.className = toast.className.replace('border-slate-700/80', 'border-red-500').replace('text-slate-100', 'text-red-400');
+            }
+            
+            // Animasi masuk
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+            
+            // Animasi keluar setelah 3.5 detik
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3500);
+        }
+
+        // Fitur Ganti Tema
+        function toggleTheme() {
+            const body = document.getElementById('body-theme');
+            const themeBtn = document.getElementById('themeToggleBtn');
+            const themeIcon = document.getElementById('theme-icon');
+            const themeText = document.getElementById('theme-text');
+            const appleNav = document.getElementById('apple-nav');
+            
+            // Logika ganti tema
+            body.classList.toggle('light-theme');
+            
+            // Periksa keadaan setelah kelas di-toggle
+            if (body.classList.contains('light-theme')) {
+                themeText.innerText = "Tema Gelap";
+                // Ikon Bulan
+                themeIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />`;
+                appleNav.style.backgroundColor = "rgba(245, 245, 247, 0.85)"; // Warna header terang
+            } else {
+                themeText.innerText = "Tema Terang";
+                // Ikon Matahari
+                themeIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.364l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />`;
+                appleNav.style.backgroundColor = "rgba(22, 22, 23, 0.85)"; // Warna header gelap
+            }
+            showToast("Tema berhasil diganti!");
+        }
+
+        // Print Modal Logic (Pop-up sebelum dicitak)
+        function showPrintModal() {
+            const modal = document.getElementById('print-modal');
+            const modalContent = document.getElementById('print-modal-content');
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            // Animasi asup
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modalContent.classList.remove('scale-95');
+            }, 10);
+        }
+
+        function closePrintModal() {
+            const modal = document.getElementById('print-modal');
+            const modalContent = document.getElementById('print-modal-content');
+            
+            // Animasi keluar
+            modal.classList.add('opacity-0');
+            modalContent.classList.add('scale-95');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+
+        function proceedToPrint(shouldCopyDana) {
+            if (shouldCopyDana) {
+                copyDanaNumber(false); // jangan tampilkan toast dulu, ganti dengan yang bawah
+                showToast("DANA 083820666909 disalin! Membuka menu cetak...");
+            }
+            
+            closePrintModal();
+            
+            // Tunggu sebentar agar pop-up menghilang dengan sempurna sebelum sistem mencetak
+            setTimeout(() => {
+                window.print();
+            }, 350);
+        }
+
+        // Copy Dana Number dengan penanganan iFrame Aman
+        function copyDanaNumber(showNotification = true) {
+            const tempInput = document.createElement("textarea");
+            tempInput.value = "083820666909";
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+            
+            if (showNotification) {
+                showToast("Nomor DANA 083820666909 berhasil disalin!");
+            }
+        }
+
+        // Hitung subnet secara dinamis
+        function calculateSubnet() {
+            const ipVal = document.getElementById('calc-ip').value.trim();
+            const prefixVal = parseInt(document.getElementById('calc-prefix').value);
+            
+            // Validasi format IP
+            const ipPattern = /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/;
+            if (!ipPattern.test(ipVal)) {
+                showToast('Format IP Address salah! Contoh: 192.168.17.0', false);
+                return;
+            }
+            
+            const octets = ipVal.split('.').map(Number);
+            if (octets.some(o => o < 0 || o > 255)) {
+                showToast('Oktet IP harus berada antara 0 hingga 255!', false);
+                return;
+            }
+
+            // Hitung Mask
+            let maskBinary = "";
+            for (let i = 0; i < 32; i++) {
+                maskBinary += i < prefixVal ? "1" : "0";
+            }
+            
+            const maskOctets = [];
+            for (let i = 0; i < 4; i++) {
+                maskOctets.push(parseInt(maskBinary.substr(i * 8, 8), 2));
+            }
+            const maskStr = maskOctets.join('.');
+            
+            // Hitung Wildcard
+            const wildcardOctets = maskOctets.map(o => 255 - o);
+            const wildcardStr = wildcardOctets.join('.');
+            
+            // Hitung Network Address (AND logic)
+            const naOctets = octets.map((o, idx) => o & maskOctets[idx]);
+            const naStr = naOctets.join('.');
+            
+            // Hitung Broadcast Address (OR logic)
+            const baOctets = naOctets.map((o, idx) => o | wildcardOctets[idx]);
+            const baStr = baOctets.join('.');
+            
+            // Hitung Range
+            const firstHost = [...naOctets];
+            firstHost[3] += 1;
+            const lastHost = [...baOctets];
+            lastHost[3] -= 1;
+            
+            let rangeStr = "";
+            if (prefixVal >= 31) {
+                rangeStr = "Hanya untuk sambungan Point-to-Point khusus.";
+            } else {
+                rangeStr = `${firstHost.join('.')} - ${lastHost.join('.')}`;
+            }
+            
+            // Render ka UI
+            document.getElementById('res-mask').innerText = maskStr;
+            document.getElementById('res-wildcard').innerText = wildcardStr;
+            document.getElementById('res-na').innerText = naStr;
+            document.getElementById('res-ba').innerText = baStr;
+            document.getElementById('res-range').innerText = rangeStr;
+
+            showToast("Subnetting berhasil dihitung!");
+        }
+
+        // Load Template CLI Cepat
+        function loadTemplate(type) {
+            const cliBox = document.getElementById('cli-box-code');
+            let code = "";
+            
+            switch(type) {
+                case 'dhcp':
+                    code = `# Konfigurasi DHCP Server Lengkap\nRouter(config)# ip dhcp excluded-address 192.168.10.1 192.168.10.5\nRouter(config)# ip dhcp pool MAHASISWA\nRouter(dhcp-config)# network 192.168.10.0 255.255.255.0\nRouter(dhcp-config)# default-router 192.168.10.1\nRouter(dhcp-config)# dns-server 8.8.8.8\nRouter(dhcp-config)# exit`;
+                    break;
+                case 'ospf':
+                    code = `# Konfigurasi OSPF dengan Wildcard\nRouter(config)# router ospf 1\nRouter(config-router)# network 192.168.10.0 0.0.0.255 area 0\nRouter(config-router)# network 10.10.10.0 0.0.0.3 area 0\nRouter(config-router)# default-information originate\nRouter(config-router)# exit`;
+                    break;
+                case 'intervlan':
+                    code = `# Konfigurasi Inter-VLAN Router-on-a-Stick\nRouter(config)# interface fa0/0\nRouter(config-if)# no shutdown\nRouter(config-if)# interface fa0/0.10\nRouter(config-subif)# encapsulation dot1Q 10\nRouter(config-subif)# ip address 192.168.10.1 255.255.255.0\nRouter(config-subif)# exit`;
+                    break;
+                case 'acl':
+                    code = `# Extended ACL (Blokir Akses ke Admin Server)\nRouter(config)# access-list 100 permit ip 192.168.17.128 0.0.0.15 host 192.168.17.166\nRouter(config)# access-list 100 deny ip any host 192.168.17.166\nRouter(config)# access-list 100 permit ip any any\nRouter(config)# interface fa1/0\nRouter(config-if)# ip access-group 100 out`;
+                    break;
+                default:
+                    code = "# Pilih salah satu template di atas.";
+            }
+            cliBox.innerText = code;
+            showToast("Template CLI dimuat!");
+        }
+
+        // Salin ka Clipboard iFrame Aman
+        function copyToClipboard(elementId) {
+            const textToCopy = document.getElementById(elementId).innerText;
+            const tempInput = document.createElement("textarea");
+            tempInput.value = textToCopy;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+            
+            showToast("Kode konfigurasi berhasil disalin!");
+        }
+
+        // Toggle Visual A4 vs Layar Lebar
+        let isA4View = true;
+        function toggleVisualMode() {
+            const p1 = document.getElementById('p1');
+            const p2 = document.getElementById('p2');
+            const btn = document.getElementById('viewModeBtn');
+            const docLayout = document.getElementById('document-layout');
+
+            if (isA4View) {
+                // Tampilan layar responsif
+                p1.classList.remove('a4-container', 'p-[12mm]');
+                p2.classList.remove('a4-container', 'p-[12mm]');
+                p1.classList.add('w-full', 'max-w-7xl', 'p-8');
+                p2.classList.add('w-full', 'max-w-7xl', 'p-8');
+                docLayout.classList.remove('gap-8');
+                docLayout.classList.add('gap-12', 'w-full', 'px-6');
+                btn.innerText = "Mode Tata Letak Kertas A4";
+                isA4View = false;
+            } else {
+                // Tampilan A4 mock
+                p1.classList.add('a4-container', 'p-[12mm]');
+                p2.classList.add('a4-container', 'p-[12mm]');
+                p1.classList.remove('w-full', 'max-w-7xl', 'p-8');
+                p2.classList.remove('w-full', 'max-w-7xl', 'p-8');
+                docLayout.classList.add('gap-8');
+                docLayout.classList.remove('gap-12', 'w-full', 'px-6');
+                btn.innerText = "Mode Layar Penuh";
+                isA4View = true;
+            }
+            showToast("Tata letak halaman diganti!");
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cheat Sheet Responsi Alpro II - Pendaftar Magang (Lengkap & Pas A4)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Desain halaman khusus ukuran A4 */
+        @page {
+            size: A4;
+            margin: 5mm;
+        }
+        
+        @media print {
+            body {
+                background-color: #ffffff;
+                color: #0f172a;
+                font-size: 8.5px;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .a4-page {
+                box-shadow: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                border: none !important;
+            }
+            .code-block {
+                background-color: #f8fafc !important;
+                border: 1px solid #e2e8f0 !important;
+                color: #0f172a !important;
+                page-break-inside: avoid;
+            }
+            .badge {
+                border: 1px solid #cbd5e1 !important;
+                background-color: #f1f5f9 !important;
+                color: #0f172a !important;
+            }
+        }
+
+        /* Tampilan di browser agar mirip kertas A4 */
+        @media screen {
+            .a4-page {
+                width: 210mm;
+                min-height: 297mm;
+                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            }
+        }
+
+        /* Mencegah kode terpotong secara horizontal */
+        pre code {
+            white-space: pre-wrap !important;
+            word-wrap: break-word !important;
+            word-break: break-all !important;
+        }
+
+        /* Custom Scrollbar untuk Code Blocks di layar */
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 3px;
+            width: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen py-4 flex flex-col items-center justify-start antialiased">
+
+    <!-- Tombol Aksi (Hanya muncul di Browser) -->
+    <div class="no-print mb-4 flex gap-4 w-full max-w-4xl px-4 justify-between items-center">
+        <div>
+            <h1 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                <span class="flex h-2.5 w-2.5 relative">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-600"></span>
+                </span>
+                Cheat Sheet Responsi C++ Alpro II (Fstream Standard & Pas A4)
+            </h1>
+            <p class="text-xs text-slate-500 font-medium font-sans">Menggunakan spasi " " sebagai separator & "_" sebagai pengganti spasi internal. Margin: "Minimum".</p>
+        </div>
+        <button onclick="window.print()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-xs font-semibold shadow-sm transition duration-200 ease-in-out flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+            </svg>
+            Cetak / Simpan PDF
+        </button>
+    </div>
+
+    <!-- Kertas Utama A4 -->
+    <main class="a4-page bg-white border border-slate-200 rounded-xl p-5 flex flex-col justify-between text-[8px] leading-tight select-none">
+        
+        <!-- HEADER UTAMA -->
+        <header class="border-b-2 border-emerald-500 pb-1.5 mb-2">
+            <div class="flex justify-between items-start">
+                <div>
+                    <span class="text-[7px] bg-emerald-50 text-emerald-700 border border-emerald-200 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider badge">ALPRO II - FSTREAM STANDARD V4</span>
+                    <h1 class="text-base font-extrabold text-slate-900 mt-0.5 uppercase tracking-tight">Cheat Sheet Master: Database Pendaftar Magang</h1>
+                    <p class="text-slate-500 text-[7.5px] mt-0.5">Operasi Struktur Data Bersarang, Pointer & Const, Validasi Input, File Handling (Space Separated & Underscore Replace), Sorting, Searching, & Deleting (C++)</p>
+                </div>
+                <div class="text-right text-[7.5px] text-slate-500 font-semibold">
+                    <div>Database: <code class="text-emerald-700 font-mono bg-emerald-50 px-1 rounded">data_pendaftar_magang.txt</code></div>
+                    <div>Separator: <code class="text-emerald-700 font-mono bg-emerald-50 px-1 rounded">' ' (Spasi Standard)</code></div>
+                    <div>Konversi Spasi: <code class="text-emerald-700 font-mono bg-emerald-50 px-1 rounded">'_' (Underscore)</code></div>
+                </div>
+            </div>
+        </header>
+
+        <!-- GRID KONTEN UTAMA -->
+        <div class="grid grid-cols-2 gap-2 flex-grow">
+            
+            <!-- KOLOM KIRI (LOGIKA INPUT & STRUKTUR) -->
+            <div class="space-y-1.5 flex flex-col justify-start">
+                
+                <!-- SEKSI 1: STRUKTUR DATA & DEKLARASI -->
+                <section class="border border-slate-200 rounded p-1 bg-slate-50/50">
+                    <div class="flex items-center gap-1 font-bold text-slate-900 border-b border-slate-200 pb-0.5 mb-1">
+                        <span class="text-emerald-600">1.</span> DEKLARASI STRUCT & VARIABEL GLOBAL
+                    </div>
+                    <pre class="font-mono text-[7px] text-slate-700 leading-normal custom-scrollbar overflow-x-auto code-block p-1 bg-slate-50 rounded border border-slate-200/60"><code><span class="text-rose-600">const</span> <span class="text-rose-600">int</span> MAX_MAHASISWA = <span class="text-cyan-600">100</span>;
+<span class="text-rose-600">const</span> <span class="text-teal-600">string</span> FILE_DB = <span class="text-amber-700">"data_pendaftar_magang.txt"</span>;
+
+<span class="text-rose-600">struct</span> <span class="text-teal-600">TanggalLahir</span> {
+    <span class="text-rose-600">int</span> tgl;
+    <span class="text-teal-600">string</span> bulan;
+    <span class="text-rose-600">int</span> tahun;
+};
+
+<span class="text-rose-600">struct</span> <span class="text-teal-600">Mahasiswa</span> {
+    <span class="text-rose-600">int</span> nim;
+    <span class="text-teal-600">string</span> nama;
+    <span class="text-teal-600">string</span> jenisKelamin;
+    <span class="text-teal-600">TanggalLahir</span> tglLahir;
+    <span class="text-rose-600">int</span> semester;
+    <span class="text-teal-600">string</span> prodi;
+    <span class="text-teal-600">string</span> fakultas;
+    <span class="text-rose-600">float</span> ipk;
+};</code></pre>
+                </section>
+
+                <!-- SEKSI 2: UTILITY FUNCTIONS -->
+                <section class="border border-slate-200 rounded p-1 bg-slate-50/50">
+                    <div class="flex items-center gap-1 font-bold text-slate-900 border-b border-slate-200 pb-0.5 mb-1">
+                        <span class="text-emerald-600">2.</span> FUNGSI UTILITAS: `clearBuffer` & `cekNIM`
+                    </div>
+                    <pre class="font-mono text-[7px] text-slate-700 leading-normal custom-scrollbar overflow-x-auto code-block p-1 bg-slate-50 rounded border border-slate-200/60"><code><span class="text-rose-600">void</span> <span class="text-indigo-600">clearBuffer</span>() {
+    <span class="text-blue-600">cin</span>.<span class="text-indigo-600">clear</span>();
+    <span class="text-blue-600">cin</span>.<span class="text-indigo-600">ignore</span>(<span class="text-cyan-600">10000</span>, <span class="text-amber-700">'\n'</span>);
+}
+
+<span class="text-rose-600">bool</span> <span class="text-indigo-600">cekNIM</span>(<span class="text-rose-600">int</span> cekNim) {
+    <span class="text-teal-600">ifstream</span> fileInput(FILE_DB);
+    <span class="text-rose-600">if</span> (!fileInput.<span class="text-indigo-600">is_open</span>()) <span class="text-rose-600">return</span> <span class="text-rose-600">false</span>;
+
+    <span class="text-teal-600">Mahasiswa</span> data;
+    <span class="text-slate-400">// Membaca menggunakan extraction operator &gt;&gt; (Standard Spasi)</span>
+    <span class="text-rose-600">while</span> (fileInput &gt;&gt; data.nim &gt;&gt; data.nama &gt;&gt; data.jenisKelamin 
+                     &gt;&gt; data.tglLahir.tgl &gt;&gt; data.tglLahir.bulan &gt;&gt; data.tglLahir.tahun 
+                     &gt;&gt; data.semester &gt;&gt; data.prodi &gt;&gt; data.fakultas &gt;&gt; data.ipk) {
+        <span class="text-rose-600">if</span> (data.nim == cekNim) {
+            fileInput.<span class="text-indigo-600">close</span>();
+            <span class="text-rose-600">return</span> <span class="text-rose-600">true</span>;
+        }
+    }
+    fileInput.<span class="text-indigo-600">close</span>();
+    <span class="text-rose-600">return</span> <span class="text-rose-600">false</span>;
+}</code></pre>
+                </section>
+
+                <!-- SEKSI 3: FILE HANDLING - WRITING -->
+                <section class="border border-slate-200 rounded p-1 bg-slate-50/50">
+                    <div class="flex items-center gap-1 font-bold text-slate-900 border-b border-slate-200 pb-0.5 mb-1">
+                        <span class="text-emerald-600">3.</span> FILE WRITING: `appendKeFile` & `tulisSemuaKeFile`
+                    </div>
+                    <pre class="font-mono text-[7px] text-slate-700 leading-normal custom-scrollbar overflow-x-auto code-block p-1 bg-slate-50 rounded border border-slate-200/60"><code><span class="text-rose-600">void</span> <span class="text-indigo-600">appendKeFile</span>(<span class="text-rose-600">const</span> <span class="text-teal-600">Mahasiswa</span> *m) {
+    <span class="text-teal-600">ofstream</span> fileOutput(FILE_DB, <span class="text-blue-600">ios::app</span>);
+    <span class="text-rose-600">if</span> (fileOutput.<span class="text-indigo-600">is_open</span>()) {
+        <span class="text-slate-400">// Menggunakan spasi " " sebagai pemisah data</span>
+        fileOutput &lt;&lt; m-&gt;nim &lt;&lt; <span class="text-amber-700">" "</span> &lt;&lt; m-&gt;nama &lt;&lt; <span class="text-amber-700">" "</span> &lt;&lt; m-&gt;jenisKelamin &lt;&lt; <span class="text-amber-700">" "</span>
+                   &lt;&lt; m-&gt;tglLahir.tgl &lt;&lt; <span class="text-amber-700">" "</span> &lt;&lt; m-&gt;tglLahir.bulan &lt;&lt; <span class="text-amber-700">" "</span> &lt;&lt; m-&gt;tglLahir.tahun &lt;&lt; <span class="text-amber-700">" "</span>
+                   &lt;&lt; m-&gt;semester &lt;&lt; <span class="text-amber-700">" "</span> &lt;&lt; m-&gt;prodi &lt;&lt; <span class="text-amber-700">" "</span> &lt;&lt; m-&gt;fakultas &lt;&lt; <span class="text-amber-700">" "</span> &lt;&lt; m-&gt;ipk &lt;&lt; <span class="text-amber-700">"\n"</span>;
+        fileOutput.<span class="text-indigo-600">close</span>();
+        <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"&gt;&gt; [SUCCESS] Data berhasil ditambahkan ke file."</span> &lt;&lt; <span class="text-blue-600">endl</span>;
+    } <span class="text-rose-600">else</span> {
+        <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"&gt;&gt; Gagal membuka file!"</span> &lt;&lt; <span class="text-blue-600">endl</span>;
+    }
+}
+
+<span class="text-slate-400">// Menulis ulang seluruh data (Spasi sebagai pemisah data)</span>
+<span class="text-rose-600">void</span> <span class="text-indigo-600">tulisSemuaKeFile</span>(<span class="text-teal-600">Mahasiswa</span> arr[], <span class="text-rose-600">int</span> n) {
+    <span class="text-teal-600">ofstream</span> fileOutput(FILE_DB); <span class="text-slate-400">// Menimpa file asli</span>
+    <span class="text-rose-600">if</span> (fileOutput.<span class="text-indigo-600">is_open</span>()) {
+        <span class="text-rose-600">for</span> (<span class="text-rose-600">int</span> i = <span class="text-cyan-600">0</span>; i &lt; n; i++) {
+            fileOutput &lt;&lt; arr[i].nim &lt;&lt; <span class="text-amber-700">" "</span> &lt;&lt; arr[i].nama &lt;&lt; <span class="text-amber-700">" "</span> &lt;&lt; arr[i].jenisKelamin &lt;&lt; <span class="text-amber-700">" "</span>
+                       &lt;&lt; arr[i].tglLahir.tgl &lt;&lt; <span class="text-amber-700">" "</span> &lt;&lt; arr[i].tglLahir.bulan &lt;&lt; <span class="text-amber-700">" "</span> &lt;&lt; arr[i].tglLahir.tahun &lt;&lt; <span class="text-amber-700">" "</span>
+                       &lt;&lt; arr[i].semester &lt;&lt; <span class="text-amber-700">" "</span> &lt;&lt; arr[i].prodi &lt;&lt; <span class="text-amber-700">" "</span> &lt;&lt; arr[i].fakultas &lt;&lt; <span class="text-amber-700">" "</span> &lt;&lt; arr[i].ipk &lt;&lt; <span class="text-amber-700">"\n"</span>;
+        }
+        fileOutput.<span class="text-indigo-600">close</span>();
+    }
+}</code></pre>
+                </section>
+
+                <!-- SEKSI 4: LOGIKA INPUT UTAMA -->
+                <section class="border border-slate-200 rounded p-1 bg-slate-50/50">
+                    <div class="flex items-center gap-1 font-bold text-slate-900 border-b border-slate-200 pb-0.5 mb-1">
+                        <span class="text-emerald-600">4.</span> FUNGSI INPUT & SPACE-TO-UNDERSCORE
+                    </div>
+                    <pre class="font-mono text-[7px] text-slate-700 leading-normal custom-scrollbar overflow-x-auto code-block p-1 bg-slate-50 rounded border border-slate-200/60"><code><span class="text-rose-600">void</span> <span class="text-indigo-600">menuInput</span>() {
+    <span class="text-teal-600">Mahasiswa</span> mhsbaru;
+    <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"\n========================================\n         INPUT DATA MAHASISWA          \n========================================\n"</span>;
+    <span class="text-rose-600">while</span> (<span class="text-rose-600">true</span>) {
+        <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"Masukkan NIM (Angka)       : "</span>;
+        <span class="text-rose-600">if</span> (!(<span class="text-blue-600">cin</span> &gt;&gt; mhsbaru.nim)) {
+            <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"&gt;&gt; Input NIM tidak valid! Harus berupa angka."</span> &lt;&lt; <span class="text-blue-600">endl</span>;
+            <span class="text-indigo-600">clearBuffer</span>(); <span class="text-rose-600">continue</span>;
+        }
+        <span class="text-rose-600">if</span> (<span class="text-indigo-600">cekNIM</span>(mhsbaru.nim)) {
+            <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"&gt;&gt; NIM sudah terdaftar! Ulangi."</span> &lt;&lt; <span class="text-blue-600">endl</span>; <span class="text-rose-600">continue</span>;
+        }
+        <span class="text-rose-600">break</span>;
+    }
+    <span class="text-indigo-600">clearBuffer</span>();
+    
+    <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"Masukkan Nama              : "</span>; <span class="text-indigo-600">getline</span>(<span class="text-blue-600">cin</span>, mhsbaru.nama);
+    <span class="text-rose-600">for</span>(<span class="text-rose-600">char</span> &amp;c : mhsbaru.nama) <span class="text-rose-600">if</span>(c == <span class="text-orange-400">' '</span>) c = <span class="text-orange-400">'_'</span>; <span class="text-slate-400">// Ganti spasi dengan '_'</span>
+
+    <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"Masukkan Jenis Kelamin     : "</span>; <span class="text-indigo-600">getline</span>(<span class="text-blue-600">cin</span>, mhsbaru.jenisKelamin);
+    <span class="text-rose-600">for</span>(<span class="text-rose-600">char</span> &amp;c : mhsbaru.jenisKelamin) <span class="text-rose-600">if</span>(c == <span class="text-orange-400">' '</span>) c = <span class="text-orange-400">'_'</span>;
+
+    <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"Masukkan Tanggal Lahir (DD): "</span>;
+    <span class="text-rose-600">while</span> (!(<span class="text-blue-600">cin</span> &gt;&gt; mhsbaru.tglLahir.tgl)) {
+        <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"Format salah. Angka: "</span>; <span class="text-indigo-600">clearBuffer</span>();
+    }
+    <span class="text-indigo-600">clearBuffer</span>();
+    
+    <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"Masukkan Bulan Lahir (Str) : "</span>; <span class="text-indigo-600">getline</span>(<span class="text-blue-600">cin</span>, mhsbaru.tglLahir.bulan);
+    <span class="text-rose-600">for</span>(<span class="text-rose-600">char</span> &amp;c : mhsbaru.tglLahir.bulan) <span class="text-rose-600">if</span>(c == <span class="text-orange-400">' '</span>) c = <span class="text-orange-400">'_'</span>;
+    
+    <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"Masukkan Tahun Lahir (YYYY): "</span>;
+    <span class="text-rose-600">while</span> (!(<span class="text-blue-600">cin</span> &gt;&gt; mhsbaru.tglLahir.tahun)) {
+        <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"Format salah. Angka: "</span>; <span class="text-indigo-600">clearBuffer</span>();
+    }
+
+    <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"Masukkan Semester          : "</span>;
+    <span class="text-rose-600">while</span> (!(<span class="text-blue-600">cin</span> &gt;&gt; mhsbaru.semester) || mhsbaru.semester &lt; <span class="text-cyan-600">1</span> || mhsbaru.semester &gt; <span class="text-cyan-600">12</span>) {
+        <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"Format salah. Angka (1-12): "</span>; <span class="text-indigo-600">clearBuffer</span>();
+    }
+    <span class="text-indigo-600">clearBuffer</span>();
+
+    <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"Masukkan Program Studi     : "</span>; <span class="text-indigo-600">getline</span>(<span class="text-blue-600">cin</span>, mhsbaru.prodi);
+    <span class="text-rose-600">for</span>(<span class="text-rose-600">char</span> &amp;c : mhsbaru.prodi) <span class="text-rose-600">if</span>(c == <span class="text-orange-400">' '</span>) c = <span class="text-orange-400">'_'</span>;
+
+    <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"Masukkan Fakultas          : "</span>; <span class="text-indigo-600">getline</span>(<span class="text-blue-600">cin</span>, mhsbaru.fakultas);
+    <span class="text-rose-600">for</span>(<span class="text-rose-600">char</span> &amp;c : mhsbaru.fakultas) <span class="text-rose-600">if</span>(c == <span class="text-orange-400">' '</span>) c = <span class="text-orange-400">'_'</span>;
+
+    <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"Masukkan IPK               : "</span>;
+    <span class="text-rose-600">while</span> (!(<span class="text-blue-600">cin</span> &gt;&gt; mhsbaru.ipk) || mhsbaru.ipk &lt; <span class="text-cyan-600">0.0</span> || mhsbaru.ipk &gt; <span class="text-cyan-600">4.0</span>) {
+        <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"Format salah. Angka desimal (0 - 4.0): "</span>; <span class="text-indigo-600">clearBuffer</span>();
+    }
+    <span class="text-indigo-600">appendKeFile</span>(&amp;mhsbaru);
+}</code></pre>
+                </section>
+
+            </div>
+
+            <!-- KOLOM KANAN (LOGIKA OUTPUT & ALGORITMA) -->
+            <div class="space-y-1.5 flex flex-col justify-start">
+                
+                <!-- SEKSI 5: PARSING & CETAK DATA -->
+                <section class="border border-slate-200 rounded p-1 bg-slate-50/50">
+                    <div class="flex items-center gap-1 font-bold text-slate-900 border-b border-slate-200 pb-0.5 mb-1">
+                        <span class="text-emerald-600">5.</span> FILE READING & UNDERSCORE-TO-SPACE PRINT
+                    </div>
+                    <pre class="font-mono text-[7px] text-slate-700 leading-normal custom-scrollbar overflow-x-auto code-block p-1 bg-slate-50 rounded border border-slate-200/60"><code><span class="text-rose-600">int</span> <span class="text-indigo-600">loadDataToArray</span>(<span class="text-teal-600">Mahasiswa</span> arr[]) {
+    <span class="text-teal-600">ifstream</span> fileInput(FILE_DB);
+    <span class="text-rose-600">if</span> (!fileInput.<span class="text-indigo-600">is_open</span>()) <span class="text-rose-600">return</span> <span class="text-cyan-600">0</span>;
+
+    <span class="text-rose-600">int</span> jumlah = <span class="text-cyan-600">0</span>;
+    <span class="text-slate-400">// Membaca file baris demi baris menggunakan separator spasi</span>
+    <span class="text-rose-600">while</span> (jumlah &lt; MAX_MAHASISWA &amp;&amp; 
+           (fileInput &gt;&gt; arr[jumlah].nim &gt;&gt; arr[jumlah].nama &gt;&gt; arr[jumlah].jenisKelamin 
+                      &gt;&gt; arr[jumlah].tglLahir.tgl &gt;&gt; arr[jumlah].tglLahir.bulan &gt;&gt; arr[jumlah].tglLahir.tahun 
+                      &gt;&gt; arr[jumlah].semester &gt;&gt; arr[jumlah].prodi &gt;&gt; arr[jumlah].fakultas &gt;&gt; arr[jumlah].ipk)) {
+        jumlah++;
+    }
+    fileInput.<span class="text-indigo-600">close</span>();
+    <span class="text-rose-600">return</span> jumlah;
+}
+
+<span class="text-rose-600">void</span> <span class="text-indigo-600">cetakData</span>(<span class="text-teal-600">Mahasiswa</span> m) {
+    <span class="text-slate-400">// Mengembalikan '_' menjadi spasi saat menampilkan data agar rapi</span>
+    <span class="text-rose-600">for</span>(<span class="text-rose-600">char</span> &amp;c : m.nama) <span class="text-rose-600">if</span>(c == <span class="text-orange-400">'_'</span>) c = <span class="text-orange-400">' '</span>;
+    <span class="text-rose-600">for</span>(<span class="text-rose-600">char</span> &amp;c : m.jenisKelamin) <span class="text-rose-600">if</span>(c == <span class="text-orange-400">'_'</span>) c = <span class="text-orange-400">' '</span>;
+    <span class="text-rose-600">for</span>(<span class="text-rose-600">char</span> &amp;c : m.tglLahir.bulan) <span class="text-rose-600">if</span>(c == <span class="text-orange-400">'_'</span>) c = <span class="text-orange-400">' '</span>;
+    <span class="text-rose-600">for</span>(<span class="text-rose-600">char</span> &amp;c : m.prodi) <span class="text-rose-600">if</span>(c == <span class="text-orange-400">'_'</span>) c = <span class="text-orange-400">' '</span>;
+    <span class="text-rose-600">for</span>(<span class="text-rose-600">char</span> &amp;c : m.fakultas) <span class="text-rose-600">if</span>(c == <span class="text-orange-400">'_'</span>) c = <span class="text-orange-400">' '</span>;
+
+    <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"NIM       : "</span> &lt;&lt; m.nim &lt;&lt; <span class="text-blue-600">endl</span>;
+    <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"Nama      : "</span> &lt;&lt; m.nama &lt;&lt; <span class="text-blue-600">endl</span>;
+    <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"Lahir     : "</span> &lt;&lt; m.tglLahir.tgl &lt;&lt; <span class="text-amber-700">" "</span> &lt;&lt; m.tglLahir.bulan &lt;&lt; <span class="text-amber-700">" "</span> &lt;&lt; m.tglLahir.tahun &lt;&lt; <span class="text-blue-600">endl</span>;
+    <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"Prodi     : "</span> &lt;&lt; m.prodi &lt;&lt; <span class="text-blue-600">endl</span> &lt;&lt; <span class="text-amber-700">"Fakultas  : "</span> &lt;&lt; m.fakultas &lt;&lt; <span class="text-blue-600">endl</span>;
+    <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"Semester  : "</span> &lt;&lt; m.semester &lt;&lt; <span class="text-blue-600">endl</span> &lt;&lt; <span class="text-amber-700">"IPK       : "</span> &lt;&lt; m.ipk &lt;&lt; <span class="text-blue-600">endl</span>;
+}</code></pre>
+                </section>
+
+                <!-- SEKSI 6: HAPUS DATA (LINEAR SEARCH & SHIFTING ARRAY) -->
+                <section class="border border-slate-200 rounded p-1 bg-emerald-50/20 border-emerald-200/50">
+                    <div class="flex items-center gap-1 font-bold text-emerald-950 border-b border-emerald-200 pb-0.5 mb-1">
+                        <span class="text-emerald-600">6.</span> SEARCHING & DELETING: `menuHapusData` (Shifting Array)
+                    </div>
+                    <pre class="font-mono text-[7px] text-slate-700 leading-normal custom-scrollbar overflow-x-auto code-block p-1 bg-slate-50 rounded border border-slate-200/60"><code><span class="text-rose-600">void</span> <span class="text-indigo-600">menuHapusData</span>() {
+    <span class="text-rose-600">int</span> cariNim, k = -<span class="text-cyan-600">1</span>;
+    <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"\nMasukkan NIM yang ingin dihapus: "</span>;
+    <span class="text-rose-600">if</span> (!(<span class="text-blue-600">cin</span> &gt;&gt; cariNim)) {
+        <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"&gt;&gt; [ERROR] Input NIM harus angka!"</span> &lt;&lt; <span class="text-blue-600">endl</span>;
+        <span class="text-indigo-600">clearBuffer</span>(); <span class="text-rose-600">return</span>;
+    }
+
+    <span class="text-teal-600">Mahasiswa</span> daftar[MAX_MAHASISWA];
+    <span class="text-rose-600">int</span> totalData = <span class="text-indigo-600">loadDataToArray</span>(daftar);
+
+    <span class="text-slate-400">// Linear Search untuk mencari indeks elemen</span>
+    <span class="text-rose-600">for</span> (<span class="text-rose-600">int</span> i = <span class="text-cyan-600">0</span>; i &lt; totalData; i++) {
+        <span class="text-rose-600">if</span> (daftar[i].nim == cariNim) {
+            k = i; <span class="text-rose-600">break</span>;
+        }
+    }
+
+    <span class="text-rose-600">if</span> (k != -<span class="text-cyan-600">1</span>) {
+        <span class="text-slate-400">// Menggeser sisa elemen ke kiri (Shifting Array)</span>
+        <span class="text-rose-600">for</span> (<span class="text-rose-600">int</span> i = k; i &lt; totalData - <span class="text-cyan-600">1</span>; i++) {
+            daftar[i] = daftar[i + <span class="text-cyan-600">1</span>];
+        }
+        totalData--; <span class="text-slate-400">// Kurangi jumlah data asli</span>
+        <span class="text-indigo-600">tulisSemuaKeFile</span>(daftar, totalData); <span class="text-slate-400">// Tulis ulang file</span>
+        <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"&gt;&gt; [SUCCESS] Mahasiswa dengan NIM "</span> &lt;&lt; cariNim &lt;&lt; <span class="text-amber-700">" berhasil dihapus."</span> &lt;&lt; <span class="text-blue-600">endl</span>;
+    } <span class="text-rose-600">else {</span>
+        <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"&gt;&gt; [INFO] NIM "</span> &lt;&lt; cariNim &lt;&lt; <span class="text-amber-700">" tidak terdaftar di database."</span> &lt;&lt; <span class="text-blue-600">endl</span>;
+    }
+}</code></pre>
+                </section>
+
+                <!-- SEKSI 7: ALGORITMA SORTING & SEARCHING -->
+                <section class="border border-slate-200 rounded p-1 bg-slate-50/50">
+                    <div class="flex items-center gap-1 font-bold text-slate-900 border-b border-slate-200 pb-0.5 mb-1">
+                        <span class="text-emerald-600">7.</span> BUBBLE SORT & LOGIKA CARI DATA
+                    </div>
+                    <pre class="font-mono text-[7px] text-slate-700 leading-normal custom-scrollbar overflow-x-auto code-block p-1 bg-slate-50 rounded border border-slate-200/60"><code><span class="text-rose-600">void</span> <span class="text-indigo-600">bubbleSort</span>(<span class="text-teal-600">Mahasiswa</span> arr[], <span class="text-rose-600">int</span> n) {
+    <span class="text-rose-600">for</span> (<span class="text-rose-600">int</span> i = <span class="text-cyan-600">0</span>; i &lt; n - <span class="text-cyan-600">1</span>; i++) {
+        <span class="text-rose-600">for</span> (<span class="text-rose-600">int</span> j = <span class="text-cyan-600">0</span>; j &lt; n - i - <span class="text-cyan-600">1</span>; j++) {
+            <span class="text-rose-600">if</span> (arr[j].nim &gt; arr[j + <span class="text-cyan-600">1</span>].nim) {
+                <span class="text-teal-600">Mahasiswa</span> temp = arr[j];
+                arr[j] = arr[j + <span class="text-cyan-600">1</span>];
+                arr[j + <span class="text-cyan-600">1</span>] = temp;
+            }
+        }
+    }
+}
+
+<span class="text-rose-600">void</span> <span class="text-indigo-600">menuCariData</span>() {
+    <span class="text-rose-600">int</span> cariNim;
+    <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"\nMasukkan NIM yang dicari: "</span>;
+    <span class="text-rose-600">if</span> (!(<span class="text-blue-600">cin</span> &gt;&gt; cariNim)) {
+        <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"&gt;&gt; Input NIM harus angka."</span> &lt;&lt; <span class="text-blue-600">endl</span>; <span class="text-indigo-600">clearBuffer</span>(); <span class="text-rose-600">return</span>;
+    }
+    <span class="text-teal-600">Mahasiswa</span> daftar[MAX_MAHASISWA];
+    <span class="text-rose-600">int</span> totalData = <span class="text-indigo-600">loadDataToArray</span>(daftar);
+    <span class="text-rose-600">bool</span> ketemu = <span class="text-rose-600">false</span>;
+    <span class="text-rose-600">for</span> (<span class="text-rose-600">int</span> i = <span class="text-cyan-600">0</span>; i &lt; totalData; i++) {
+        <span class="text-rose-600">if</span> (daftar[i].nim == cariNim) {
+            <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"\n&gt;&gt; Data Mahasiswa Ditemukan: \n--------------------------------------------------\n"</span>;
+            <span class="text-indigo-600">cetakData</span>(daftar[i]); <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"--------------------------------------------------\n"</span>;
+            ketemu = <span class="text-rose-600">true</span>; <span class="text-rose-600">break</span>;
+        }
+    }
+    <span class="text-rose-600">if</span> (!ketemu) <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"&gt;&gt; NIM "</span> &lt;&lt; cariNim &lt;&lt; <span class="text-amber-700">" tidak terdaftar."</span> &lt;&lt; <span class="text-blue-600">endl</span>;
+}</code></pre>
+                </section>
+
+                <!-- SEKSI 8: OUTPUT WITH CRITERIA -->
+                <section class="border border-slate-200 rounded p-1 bg-slate-50/50">
+                    <div class="flex items-center gap-1 font-bold text-slate-900 border-b border-slate-200 pb-0.5 mb-1">
+                        <span class="text-emerald-600">8.</span> KATEGORI SELEKSI: `menuTampilkanSemua`
+                    </div>
+                    <pre class="font-mono text-[7px] text-slate-700 leading-normal custom-scrollbar overflow-x-auto code-block p-1 bg-slate-50 rounded border border-slate-200/60"><code><span class="text-rose-600">void</span> <span class="text-indigo-600">menuTampilkanSemua</span>() {
+    <span class="text-teal-600">Mahasiswa</span> daftar[MAX_MAHASISWA];
+    <span class="text-rose-600">int</span> totalData = <span class="text-indigo-600">loadDataToArray</span>(daftar);
+    <span class="text-rose-600">if</span> (totalData == <span class="text-cyan-600">0</span>) {
+        <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"\n&gt;&gt; Database kosong atau file tidak ditemukan."</span> &lt;&lt; <span class="text-blue-600">endl</span>; <span class="text-rose-600">return</span>;
+    }
+    <span class="text-indigo-600">bubbleSort</span>(daftar, totalData);
+    <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"\n==================================================\n        KATEGORI: LOLOS SELEKSI BERKAS MAGANG\n==================================================\n"</span>;
+    <span class="text-rose-600">int</span> countLolos = <span class="text-cyan-600">0</span>;
+    <span class="text-rose-600">for</span> (<span class="text-rose-600">int</span> i = <span class="text-cyan-600">0</span>; i &lt; totalData; i++) {
+        <span class="text-rose-600">if</span> (daftar[i].semester &gt;= <span class="text-cyan-600">5</span> &amp;&amp; daftar[i].ipk &gt;= <span class="text-cyan-600">3.25</span>) {
+            <span class="text-indigo-600">cetakData</span>(daftar[i]); <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"--------------------------------------------------"</span> &lt;&lt; <span class="text-blue-600">endl</span>;
+            countLolos++;
+        }
+    }
+    <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"\n==================================================\n       KATEGORI: BELUM LOLOS SELEKSI BERKAS\n==================================================\n"</span>;
+    <span class="text-rose-600">for</span> (<span class="text-rose-600">int</span> i = <span class="text-cyan-600">0</span>; i &lt; totalData; i++) {
+        <span class="text-rose-600">if</span> (daftar[i].semester &lt; <span class="text-cyan-600">5</span> || daftar[i].ipk &lt; <span class="text-cyan-600">3.25</span>) {
+            <span class="text-indigo-600">cetakData</span>(daftar[i]); <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"--------------------------------------------------"</span> &lt;&lt; <span class="text-blue-600">endl</span>;
+        }
+    }
+}</code></pre>
+                </section>
+
+                <!-- SEKSI 9: SUBMENU & MAIN ENTRY -->
+                <section class="border border-slate-200 rounded p-1 bg-slate-50/50">
+                    <div class="flex items-center gap-1 font-bold text-slate-900 border-b border-slate-200 pb-0.5 mb-1">
+                        <span class="text-emerald-600">9.</span> LOGIKA MENU UTAMA: `submenuOutput` & `main`
+                    </div>
+                    <pre class="font-mono text-[7px] text-slate-700 leading-normal custom-scrollbar overflow-x-auto code-block p-1 bg-slate-50 rounded border border-slate-200/60"><code><span class="text-rose-600">void</span> <span class="text-indigo-600">submenuOutput</span>() {
+    <span class="text-rose-600">int</span> subPilihan;
+    <span class="text-rose-600">do</span> {
+        <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"\n--- SUBMENU OUTPUT DATA ---\n1. Tampilkan Seluruh Data\n2. Cari Data Berdasarkan NIM\n3. Kembali ke Menu Utama\nPilih opsi [1-3]: "</span>;
+        <span class="text-rose-600">if</span> (!(<span class="text-blue-600">cin</span> &gt;&gt; subPilihan)) {
+            <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"&gt;&gt; Masukkan opsi berupa angka!"</span> &lt;&lt; <span class="text-blue-600">endl</span>;
+            <span class="text-indigo-600">clearBuffer</span>(); <span class="text-rose-600">continue</span>;
+        }
+        <span class="text-rose-600">switch</span> (subPilihan) {
+            <span class="text-rose-600">case</span> <span class="text-cyan-600">1</span>: <span class="text-indigo-600">menuTampilkanSemua</span>(); <span class="text-rose-600">break</span>;
+            <span class="text-rose-600">case</span> <span class="text-cyan-600">2</span>: <span class="text-indigo-600">menuCariData</span>(); <span class="text-rose-600">break</span>;
+        }
+    } <span class="text-rose-600">while</span> (subPilihan != <span class="text-cyan-600">3</span>);
+}
+
+<span class="text-rose-600">int</span> <span class="text-indigo-600">main</span>() {
+    <span class="text-rose-600">int</span> pilihanUtama;
+    <span class="text-rose-600">do</span> {
+        <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"\n========================================\n    SISTEM DATABASE PENDAFTAR MAGANG   \n========================================\n1. Input Data\n2. Output Data (Submenu)\n3. Hapus Data (NIM)\n4. Exit\nPilih Menu [1-4]: "</span>;
+        <span class="text-rose-600">if</span> (!(<span class="text-blue-600">cin</span> &gt;&gt; pilihanUtama)) {
+            <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"&gt;&gt; Input salah! Gunakan angka."</span> &lt;&lt; <span class="text-blue-600">endl</span>;
+            <span class="text-indigo-600">clearBuffer</span>(); <span class="text-rose-600">continue</span>;
+        }
+        <span class="text-rose-600">switch</span> (pilihanUtama) {
+            <span class="text-rose-600">case</span> <span class="text-cyan-600">1</span>: <span class="text-indigo-600">menuInput</span>(); <span class="text-rose-600">break</span>;
+            <span class="text-rose-600">case</span> <span class="text-cyan-600">2</span>: <span class="text-indigo-600">submenuOutput</span>(); <span class="text-rose-600">break</span>;
+            <span class="text-rose-600">case</span> <span class="text-cyan-600">3</span>: <span class="text-indigo-600">menuHapusData</span>(); <span class="text-rose-600">break</span>;
+            <span class="text-rose-600">case</span> <span class="text-cyan-600">4</span>: <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"\n&gt;&gt; Terima kasih! Program selesai."</span> &lt;&lt; <span class="text-blue-600">endl</span>; <span class="text-rose-600">break</span>;
+            <span class="text-rose-600">default</span>: <span class="text-blue-600">cout</span> &lt;&lt; <span class="text-amber-700">"&gt;&gt; Pilihan tidak tersedia."</span> &lt;&lt; <span class="text-blue-600">endl</span>;
+        }
+    } <span class="text-rose-600">while</span> (pilihanUtama != <span class="text-cyan-600">4</span>);
+    <span class="text-rose-600">return</span> <span class="text-cyan-600">0</span>;
+}</code></pre>
+                </section>
+
+            </div>
+
+        </div>
+
+        <!-- FOOTER: TIPS DAN ATURAN LIVE CODING / RESPONSI -->
+        <footer class="mt-2 pt-1.5 border-t border-slate-200 flex justify-between items-center text-[7.5px] text-slate-500">
+            <div class="grid grid-cols-3 gap-3 w-full text-center">
+                <div class="bg-slate-50 p-1 rounded border border-slate-100 text-left leading-tight">
+                    <strong class="text-emerald-700 block mb-0.5">⚠️ Penyelamat Buffer:</strong>
+                    Kalayan ngagunakeun separator spasi, prosés maca file ayeuna kantun nganggo operator <code class="text-slate-800 font-mono bg-slate-100 px-0.5 rounded">&gt;&gt;</code> sacara langsung tanpa hariwang kana buffer string anu kaluncatan.
+                </div>
+                <div class="bg-slate-50 p-1 rounded border border-slate-100 text-left leading-tight">
+                    <strong class="text-emerald-700 block mb-0.5">💡 Konversi Spasi ka <code class="text-emerald-700 font-mono">_</code>:</strong>
+                    Fungsi <code class="text-slate-800 font-mono bg-slate-100 px-0.5 rounded">for(char &amp;c : s) if(c == ' ') c = '_'</code> dianggo nalika input supados spasi dina nami henteu ngaruksak separator file, teras dibalikkeun deui janten spasi biasa nalika dicitak.
+                </div>
+                <div class="bg-slate-50 p-1 rounded border border-slate-100 text-left leading-tight">
+                    <strong class="text-emerald-700 block mb-0.5">🚀 Logika Hapus Data (Shifting):</strong>
+                    Logika <code class="text-emerald-700 font-mono">-&gt;</code> milari indeks target nganggo *Linear Search*, teras ngageser sésa data array ka kénca (<code class="text-slate-800 font-mono bg-slate-100 px-0.5 rounded">arr[i] = arr[i+1]</code>) sarta nyerat ulang file database tanpa mode append.
+                </div>
+            </div>
+        </footer>
+
+    </main>
+
+</body>
+</html>
